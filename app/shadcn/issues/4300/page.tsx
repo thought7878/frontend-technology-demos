@@ -19,6 +19,11 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 
+/**
+ * https://github.com/shadcn-ui/ui/issues/4300
+ *
+ */
+
 export default function Home() {
   return (
     <main className='p-10'>
