@@ -29,7 +29,8 @@ import {
 } from '@/components/ui/dialog';
 
 /**
- * https://github.com/shadcn-ui/ui/issues/4300
+ * bug: https://github.com/shadcn-ui/ui/issues/4300
+ * pull request: https://github.com/shadcn-ui/ui/pull/4297
  *
  */
 
