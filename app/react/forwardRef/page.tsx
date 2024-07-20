@@ -23,18 +23,20 @@ const MyComponent = forwardRef<HTMLDivElement, Props>(function MyComponent(
 export default function Page() {
   const myRef = React.useRef(null);
   const myButtonRef = React.useRef(null);
-  console.log('before render custom ref', myRef.current);
-  console.log('before render button ref', myButtonRef.current);
 
+  // console.log('before render custom ref', myRef.current);
+  // console.log('before render button ref', myButtonRef.current);
   useEffect(() => {
-    console.log('after render custom ref', myRef.current);
-    console.log('after render button ref', myButtonRef.current);
+    // console.log('after render custom ref', myRef.current);
+    // console.log('after render button ref', myButtonRef.current);
   }, []);
 
   return (
     <div>
       <MyComponent ref={myRef}>This is some content.</MyComponent>
-      <Button ref={myButtonRef}>press me</Button>
+      <Button ref={myButtonRef} variant={'default'} size={'default'}>
+        press me
+      </Button>
     </div>
   );
 }
