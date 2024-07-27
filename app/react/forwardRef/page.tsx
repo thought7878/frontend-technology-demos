@@ -37,6 +37,11 @@ export default function Page() {
       <Button ref={myButtonRef} variant={'default'} size={'default'}>
         press me
       </Button>
+      <Button asChild>
+        {/* <a href='#'>a asChild</a> */}
+        {/* <div>div asChild</div> */}
+        <span>span asChild</span>
+      </Button>
     </div>
   );
 }
