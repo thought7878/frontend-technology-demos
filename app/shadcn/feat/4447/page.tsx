@@ -1,4 +1,7 @@
+'use client';
+
 import * as React from 'react';
+import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
 
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -10,8 +13,14 @@ import {
 } from '@/components/ui/carousel';
 
 export default function CarouselDemo() {
+  const plugin = React.useRef(WheelGesturesPlugin());
+
   return (
-    <Carousel className='w-full max-w-xs'>
+    <Carousel
+      plugins={[plugin.current]}
+      opts={{ loop: false, skipSnaps: true }}
+      className='w-full max-w-xs'
+    >
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={index}>
