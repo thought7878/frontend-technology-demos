@@ -20,7 +20,7 @@ const MyComponent = forwardRef<HTMLDivElement, Props>(function MyComponent(
 });
 
 // 使用 forwardRef 创建的 MyComponent 组件
-export default function Page() {
+export default function Page(): React.ReactNode {
   const myRef = React.useRef(null);
   const myButtonRef = React.useRef(null);
 

@@ -17,3 +17,20 @@ function convert(x: string | number | null): any {
 const x1 = convert('1'); // => number
 const x2 = convert(1); // => string
 const x3 = convert(null); // -1
+
+//
+// interface LanguageRankInterface {
+//   [rank: number]: string; // ts(2413) 数字索引类型 string 类型不能赋值给字符串索引类型 number
+//   [prop: string]: number;
+// }
+
+// interface ProgramLanguage {
+//   name: string;
+//   age: () => number;
+// }
+
+// /** ts(6196) 错误的继承，name 属性不兼容 */
+// interface WrongTypeLanguage extends ProgramLanguage {
+//   name: 'a';
+//   // name: number;
+// }
