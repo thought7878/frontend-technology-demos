@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import './index.css';
 
@@ -19,13 +21,47 @@ export default function Page() {
 
   return (
     <div>
-      <Calendar />
+      <Calendar
+        value={new Date(2024, 7, 1)}
+        onChange={(date) => {
+          alert(date.toLocaleString());
+        }}
+      />
+      <Calendar value={new Date('2023-8-1')} />
     </div>
   );
 }
 
-function Calendar() {
-  const [currentDate, setCurrentDate] = useState(new Date());
+const getDaysOfMonth = (year: number, month: number) => {
+  return new Date(year, month + 1, 0).getDate();
+};
+
+const getWeekOfFirstDay = (year: number, month: number) => {
+  return new Date(year, month, 1).getDay();
+};
+
+export interface CalendarProps {
+  value?: Date;
+  onChange?: (date: Date) => void;
+}
+
+function Calendar({ value = new Date(), onChange }: CalendarProps) {
+  const [currentDate, setCurrentDate] = useState(value);
+
+  const monthNames = [
+    '一月',
+    '二月',
+    '三月',
+    '四月',
+    '五月',
+    '六月',
+    '七月',
+    '八月',
+    '九月',
+    '十月',
+    '十一月',
+    '十二月',
+  ];
 
   function handlePrevMonth() {
     setCurrentDate(
@@ -38,11 +74,54 @@ function Calendar() {
     );
   }
 
+  const renderDays = () => {
+    const days = [];
+    // 计算当前月有多少天
+    const daysCount = getDaysOfMonth(
+      currentDate.getFullYear(),
+      currentDate.getMonth()
+    );
+    // 再计算当前月的第一天是星期几
+    const weekOfFirstDay = getWeekOfFirstDay(
+      currentDate.getFullYear(),
+      currentDate.getMonth()
+    );
+    // 渲染 weekOfFirstDay 个 empty 的块。星期一，前面一个empty块；星期六，前面6个empty块。
+    for (let i = 0; i < weekOfFirstDay; i++) {
+      days.push(<div key={`empty-${i}`} className='empty'></div>);
+    }
+    // 再渲染 daysCount 个 day 的块
+    for (let i = 1; i <= daysCount; i++) {
+      const handleClick = onChange?.bind(
+        null,
+        new Date(currentDate.getFullYear(), currentDate.getMonth(), i)
+      );
+
+      if (i === currentDate.getDate()) {
+        days.push(
+          <div key={i} className='day selected' onClick={handleClick}>
+            {i}
+          </div>
+        );
+      } else {
+        days.push(
+          <div key={i} className='day' onClick={handleClick}>
+            {i}
+          </div>
+        );
+      }
+    }
+
+    return days;
+  };
+
   return (
     <div className='calendar'>
       <div className='header'>
         <button onClick={handlePrevMonth}>&lt;</button>
-        <div>2023 年 7 月</div>
+        <div>
+          {currentDate.getFullYear()} 年 {monthNames[currentDate.getMonth()]}
+        </div>
         <button onClick={handleNextMonth}>&gt;</button>
       </div>
       <div className='days'>
@@ -53,39 +132,7 @@ function Calendar() {
         <div className='day'>四</div>
         <div className='day'>五</div>
         <div className='day'>六</div>
-        <div className='empty'></div>
-        <div className='empty'></div>
-        <div className='day'>1</div>
-        <div className='day'>2</div>
-        <div className='day'>3</div>
-        <div className='day'>4</div>
-        <div className='day'>5</div>
-        <div className='day'>6</div>
-        <div className='day'>7</div>
-        <div className='day'>8</div>
-        <div className='day'>9</div>
-        <div className='day'>10</div>
-        <div className='day'>11</div>
-        <div className='day'>12</div>
-        <div className='day'>13</div>
-        <div className='day'>14</div>
-        <div className='day'>15</div>
-        <div className='day'>16</div>
-        <div className='day'>17</div>
-        <div className='day'>18</div>
-        <div className='day'>19</div>
-        <div className='day'>20</div>
-        <div className='day'>21</div>
-        <div className='day'>22</div>
-        <div className='day'>23</div>
-        <div className='day'>24</div>
-        <div className='day'>25</div>
-        <div className='day'>26</div>
-        <div className='day'>27</div>
-        <div className='day'>28</div>
-        <div className='day'>29</div>
-        <div className='day'>30</div>
-        <div className='day'>31</div>
+        {renderDays()}
       </div>
     </div>
   );
