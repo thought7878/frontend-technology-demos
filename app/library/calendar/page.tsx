@@ -2,9 +2,11 @@
 
 import { useEffect, useRef } from 'react';
 import './index.css';
-import Calendar, {
+import MiniCalendar, {
   type CalendarRef,
 } from '@/app/library/calendar/MiniCalendar';
+import dayjs from 'dayjs';
+import Calendar from '@/app/library/calendar/Calendar';
 
 export default function Page() {
   // const date = new Date(2024, 7, 1);
@@ -23,26 +25,33 @@ export default function Page() {
   // console.log('getDay', d1.getDay());
 
   const calendarRef = useRef<CalendarRef>(null);
-  console.log('before render', calendarRef.current?.getDate().toLocaleString());
-  useEffect(() => {
-    console.log(
-      'useEffect calendarRef',
-      calendarRef.current?.getDate().toLocaleString()
-    );
-    calendarRef.current?.setDate(new Date('2023-8-1'));
-    // calendarRef.current?.getDate().toLocaleString();
-  }, []);
+  // console.log('before render', calendarRef.current?.getDate().toLocaleString());
+  // useEffect(() => {
+  //   console.log(
+  //     'useEffect calendarRef',
+  //     calendarRef.current?.getDate().toLocaleString()
+  //   );
+  //   calendarRef.current?.setDate(new Date('2023-8-1'));
+  //   // calendarRef.current?.getDate().toLocaleString();
+  // }, []);
+
+  // //
+  // console.log(dayjs('2023-11-1').daysInMonth());
+
+  // console.log(dayjs('2023-11-1').startOf('month').format('YYYY-MM-DD'));
+
+  // console.log(dayjs('2023-11-1').endOf('month').format('YYYY-MM-DD'));
 
   return (
     <div>
-      <Calendar
+      <Calendar value={new Date()} />
+      {/* <MiniCalendar
         ref={calendarRef}
         value={new Date(2024, 7, 1)}
         onChange={(date) => {
           alert(date.toLocaleString());
         }}
-      />
-      <Calendar value={new Date('2023-8-1')} />
+      /> */}
     </div>
   );
 }
