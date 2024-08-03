@@ -45,6 +45,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       `buttonVariants()`,
       buttonVariants({ variant, size, className })
     );
+    // TODO need to remove
     console.log(`cn()`, cn(buttonVariants({ variant, size, className })));
 
     const Comp = asChild ? Slot : 'button';
