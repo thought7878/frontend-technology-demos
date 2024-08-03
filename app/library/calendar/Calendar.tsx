@@ -1,17 +1,28 @@
 import dayjs, { type Dayjs } from 'dayjs';
+import { CSSProperties, ReactNode } from 'react';
+import cn from 'classnames';
 
 export interface CalendarProps {
   value?: Date;
+  // style 和 className,用于修改 Calendar 组件外层容器的样式
+  style?: CSSProperties;
+  className?: string | string[];
+  // 定制日期显示，会完全覆盖日期单元格
+  dateRender?: (currentDate: Dayjs) => ReactNode;
+  // 定制日期单元格，内容会被添加到单元格内，只在全屏日历模式下生效。
+  dateInnerContent?: (currentDate: Dayjs) => ReactNode;
+  // 国际化相关
+  locale?: string;
   onChange?: (value: Date) => void;
 }
 
-export default function Calendar({
-  value = new Date(),
-  onChange,
-}: CalendarProps) {
+export default function Calendar(props: CalendarProps) {
+  const { className, style } = props;
+  const classNames = cn(className);
+
   return (
-    <div className='w-full'>
-      <MonthCalendar value={value} onChange={onChange} />
+    <div className={classNames} style={style}>
+      <MonthCalendar {...props} />
     </div>
   );
 }
@@ -55,7 +66,20 @@ function MonthCalendar({ value, onChange }: MonthCalendarProps) {
   // debugger;
 
   return (
-    <div className=''>
+    <div className='w-full'>
+      {/* header */}
+      <div className='flex items-center w-full h-[28px] leading-[28px]'>
+        <button className='w-[28px] h-[28px] text-[12px] hover:bg-[#ccc]  '>
+          &lt;
+        </button>
+        <div className='text-[20px]'>{currentDate.format('YYYY年MM月')}</div>
+        <button className='w-[28px] h-[28px] text-[12px] mr-[12px] hover:bg-[#ccc] '>
+          &gt;
+        </button>
+        <button className='bg-[#eee] hover:bg-[#ccc] px-[15px] leading-[28px]'>
+          今天
+        </button>
+      </div>
       {/* week title list */}
       <div className='w-full box-border border-solid border-b border-[#ccc] grid grid-cols-7 grid-rows-1 '>
         {/* <div className='w-full box-border border-solid border-b border-[#ccc] flex '> */}
