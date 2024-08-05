@@ -1,12 +1,14 @@
 'use client';
 
 import { Command } from 'cmdk';
+import React from 'react';
 
 const CommandMenu = (props: { defaultValue: string }) => {
   const { defaultValue } = props;
+  const [value, setValue] = React.useState('apple');
   return (
-    <Command label='Command Menu'>
-      <Command.Input />
+    <Command value='value' onValueChange={(v) => setValue} label='Command Menu'>
+      <Command.Input className='text-blue-500' />
       <Command.List>
         <Command.Empty>No results found.</Command.Empty>
 
@@ -27,10 +29,10 @@ export default function App() {
   const defaultValue = 'test';
   return (
     <div className='App'>
-      <h1>defaultValue={defaultValue}</h1>
+      {/* <h1>defaultValue={defaultValue}</h1>
       <p>
         Expected the input below to render with the defaultValue {defaultValue}.
-      </p>
+      </p> */}
       <CommandMenu defaultValue={defaultValue} />
     </div>
   );
