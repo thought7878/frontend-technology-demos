@@ -24,7 +24,7 @@ export default function SonnerDemo() {
       >
         Show Toast
       </Button>
-      <Toaster />
+      <Toaster richColors position='top-right' />
     </>
   );
 }
