@@ -24,7 +24,14 @@ export default function SonnerDemo() {
       >
         Show Toast
       </Button>
-      <Toaster richColors position='top-right' />
+      <Toaster
+        toastOptions={{
+          style: {
+            background: 'red',
+          },
+          className: 'class',
+        }}
+      />
     </>
   );
 }
