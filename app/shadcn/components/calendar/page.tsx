@@ -11,7 +11,7 @@ export default function CalendarDemo() {
     <Calendar
       mode='single'
       selected={date}
-      onSelect={setDate}
+      // onSelect={setDate}
       className='rounded-md border'
     />
   );
