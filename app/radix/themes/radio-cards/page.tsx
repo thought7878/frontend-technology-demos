@@ -8,31 +8,6 @@ export default function Page() {
   return (
     <div>
       <h1>My</h1>
-      {/*  <RadioCardsRoot onValueChange={console.log} className='flex gap-8'>
-        <RadioCardsItem value='1' size='sm' className=''>
-          <div className=''>
-            <div>8-core CPU</div>
-            <div>32 GB RAM</div>
-          </div>
-        </RadioCardsItem>
-      </RadioCardsRoot>
-      <RadioCardsRoot onValueChange={console.log} className='flex gap-8'>
-        <RadioCardsItem value='2' size='md'>
-          <div className=''>
-            <div>6-core CPU</div>
-            <div>24 GB RAM</div>
-          </div>
-        </RadioCardsItem>
-      </RadioCardsRoot>
-      <RadioCardsRoot onValueChange={console.log} className='flex gap-8'>
-        <RadioCardsItem value='3' size='lg'>
-          <div className=''>
-            <div>4-core CPU</div>
-            <div>16 GB RAM</div>
-          </div>
-        </RadioCardsItem>
-      </RadioCardsRoot> */}
-
       <RadioCardsRoot onValueChange={console.log} className='flex gap-8 mb-8'>
         <RadioCardsItem value='1' variant='surface' className=''>
           <div className=''>
@@ -40,13 +15,25 @@ export default function Page() {
             <div>32 GB RAM</div>
           </div>
         </RadioCardsItem>
-        <RadioCardsItem value='2' variant='classic' disabled>
+        <RadioCardsItem value='2' variant='classic'>
           <div className=''>
             <div>classic: 6-core CPU</div>
             <div>24 GB RAM</div>
           </div>
         </RadioCardsItem>
-        <RadioCardsItem value='3' disabled>
+        <RadioCardsItem value='3' variant='classic' disabled>
+          <div className=''>
+            <div>4-core CPU</div>
+            <div>16 GB RAM</div>
+          </div>
+        </RadioCardsItem>
+        <RadioCardsItem value='4'>
+          <div className=''>
+            <div>4-core CPU</div>
+            <div>16 GB RAM</div>
+          </div>
+        </RadioCardsItem>
+        <RadioCardsItem value='5' disabled>
           <div className=''>
             <div>4-core CPU</div>
             <div>16 GB RAM</div>
