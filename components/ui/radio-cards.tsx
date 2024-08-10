@@ -5,28 +5,22 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const radioCardsVariants = cva(
-  'border disabled:cursor-not-allowed disabled:opacity-50',
+  'border border-border aria-checked:outline aria-checked:outline-2 aria-checked:outline-ring disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       variant: {
-        surface: 'border-black/15 enabled:hover:border-black/25 transition-all',
-        // 'border-black/15 hover:border-black/30 before:bg-black/85 after:shadow-2xl',
-        classic: 'shadow-md transition-all enabled:hover:shadow-lg',
+        surface: 'enabled:hover:border-black/25 transition-all',
+        classic: 'shadow-sm transition-all enabled:hover:shadow-md',
       },
       size: {
-        sm: 'text-sm tracking-normal px-3 py-[10px] rounded-md',
-        md: 'text-sm tracking-normal px-4 py-[18px] rounded-md',
+        sm: 'text-sm tracking-normal px-3 py-2 rounded-md',
+        md: 'text-sm tracking-normal px-4 py-3 rounded-md',
         lg: 'text-base tracking-normal px-6 py-5 rounded-lg',
       },
-      // disabled: {
-      //   _true: 'cursor-not-allowed',
-      //   _false: '',
-      // },
     },
     defaultVariants: {
       variant: 'surface',
-      size: 'md',
-      // disabled: '_false',
+      size: 'sm',
     },
   }
 );

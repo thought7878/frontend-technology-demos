@@ -8,7 +8,11 @@ export default function Page() {
   return (
     <div>
       <h1>My</h1>
-      <RadioCardsRoot onValueChange={console.log} className='flex gap-8 mb-8'>
+      <RadioCardsRoot
+        onValueChange={console.log}
+        // orientation='vertical'
+        className='flex gap-8 mb-8'
+      >
         <RadioCardsItem value='1' variant='surface' className=''>
           <div className=''>
             <div>surface: 8-core CPU</div>
@@ -50,6 +54,7 @@ export default function Page() {
             onValueChange={console.log}
             columns={{ initial: '1', sm: '3' }}
             variant='classic'
+            // orientation='vertical'
             // m={'9'}
           >
             <RadioCards.Item value='1' disabled>
