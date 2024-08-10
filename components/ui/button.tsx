@@ -41,11 +41,11 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
+    // TODO need to remove
     console.log(
       `buttonVariants()`,
       buttonVariants({ variant, size, className })
     );
-    // TODO need to remove
     console.log(`cn()`, cn(buttonVariants({ variant, size, className })));
 
     const Comp = asChild ? Slot : 'button';
