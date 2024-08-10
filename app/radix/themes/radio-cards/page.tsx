@@ -34,19 +34,19 @@ export default function Page() {
       </RadioCardsRoot> */}
 
       <RadioCardsRoot onValueChange={console.log} className='flex gap-8 mb-8'>
-        <RadioCardsItem value='1' className=''>
+        <RadioCardsItem value='1' variant='surface' className=''>
           <div className=''>
-            <div>8-core CPU</div>
+            <div>surface: 8-core CPU</div>
             <div>32 GB RAM</div>
           </div>
         </RadioCardsItem>
-        <RadioCardsItem value='2'>
+        <RadioCardsItem value='2' variant='classic' disabled>
           <div className=''>
-            <div>6-core CPU</div>
+            <div>classic: 6-core CPU</div>
             <div>24 GB RAM</div>
           </div>
         </RadioCardsItem>
-        <RadioCardsItem value='3'>
+        <RadioCardsItem value='3' disabled>
           <div className=''>
             <div>4-core CPU</div>
             <div>16 GB RAM</div>
@@ -65,7 +65,7 @@ export default function Page() {
             variant='classic'
             // m={'9'}
           >
-            <RadioCards.Item value='1'>
+            <RadioCards.Item value='1' disabled>
               <Flex direction='column' width='100%'>
                 <Text weight='bold'>8-core CPU</Text>
                 <Text>32 GB RAM</Text>
@@ -95,7 +95,7 @@ export default function Page() {
             variant='surface'
             // m={'9'}
           >
-            <RadioCards.Item value='a' disabled>
+            <RadioCards.Item value='a'>
               <Flex direction='column' width='100%'>
                 <Text weight='bold'>8-core CPU</Text>
                 <Text>32 GB RAM</Text>
