@@ -1,28 +1,28 @@
-import * as React from 'react';
+import * as React from "react";
 
-import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@/lib/utils';
+import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
 
 const radioCardsVariants = cva(
-  'border border-border aria-checked:outline aria-checked:outline-2 aria-checked:outline-ring disabled:cursor-not-allowed disabled:opacity-50',
+  "border border-border disabled:cursor-not-allowed disabled:opacity-50 aria-checked:outline aria-checked:outline-2 aria-checked:outline-ring",
   {
     variants: {
       variant: {
-        surface: 'enabled:hover:border-black/25 transition-all',
-        classic: 'shadow-sm transition-all enabled:hover:shadow-md',
+        shadow: "shadow-sm transition-all enabled:hover:shadow-md",
+        outline: "transition-all enabled:hover:border-black/25",
       },
       size: {
-        sm: 'text-sm tracking-normal px-3 py-2 rounded-md',
-        md: 'text-sm tracking-normal px-4 py-3 rounded-md',
-        lg: 'text-base tracking-normal px-6 py-5 rounded-lg',
+        sm: "rounded-md px-3 py-2 text-sm tracking-normal",
+        md: "rounded-md px-4 py-3 text-sm tracking-normal",
+        lg: "rounded-lg px-6 py-5 text-base tracking-normal",
       },
     },
     defaultVariants: {
-      variant: 'surface',
-      size: 'sm',
+      variant: "shadow",
+      size: "sm",
     },
-  }
+  },
 );
 
 type RadioCardsRootElement = React.ElementRef<typeof RadioGroupPrimitive.Root>;
@@ -36,7 +36,7 @@ const RadioCardsRoot = React.forwardRef<
 >(({ ...props }, ref) => {
   return <RadioGroupPrimitive.Root {...props} ref={ref} />;
 });
-RadioCardsRoot.displayName = 'RadioCardsRoot';
+RadioCardsRoot.displayName = "RadioCardsRoot";
 
 type RadioCardsItemElement = React.ElementRef<typeof RadioGroupPrimitive.Item>;
 type RadioCardsItemProps = React.ComponentPropsWithoutRef<
@@ -54,7 +54,7 @@ const RadioCardsItem = React.forwardRef<
     {...props}
   />
 ));
-RadioCardsItem.displayName = 'RadioCardsItem';
+RadioCardsItem.displayName = "RadioCardsItem";
 
 export { RadioCardsRoot, RadioCardsItem };
 // export { RadioCardsRoot as Root, RadioCardsItem as Item };
