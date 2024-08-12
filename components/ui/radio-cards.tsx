@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
@@ -63,7 +65,3 @@ export type { RadioCardsRootProps, RadioCardsItemProps };
 //   RadioCardsRootProps as RootProps,
 //   RadioCardsItemProps as ItemProps,
 // };
-export type {
-  RadioCardsRootProps as RootProps,
-  RadioCardsItemProps as ItemProps,
-};
