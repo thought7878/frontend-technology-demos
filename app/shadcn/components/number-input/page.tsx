@@ -7,17 +7,28 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
-  NumberField,
+  // NumberField,
   NumberFieldDecrement,
   NumberFieldIncrement,
   NumberFieldInput,
 } from "@/components/ui/my-number-input";
 import { useForm } from "react-hook-form";
+import { NumberField } from "@/components/ui/my-number-input-aria";
 
 export default function Page() {
   const form = useForm();
 
   return (
+    <NumberField
+      label="Price"
+      defaultValue={6}
+      formatOptions={{
+        style: "currency",
+        currency: "USD",
+      }}
+    />
+  );
+  /* return (
     <NumberField
       name="number"
       value={1}
@@ -28,7 +39,7 @@ export default function Page() {
       <NumberFieldInput />
       <NumberFieldIncrement />
     </NumberField>
-  );
+  ); */
 
   /* return (
     <FormField

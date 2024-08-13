@@ -9,9 +9,10 @@ import {
   NumberFieldStateOptions,
 } from "react-stately";
 import { Input, InputProps } from "@/components/ui/input";
-import { Button, ButtonProps } from "@/components/ui/button";
+// import { Button, ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ControllerRenderProps } from "react-hook-form";
+import Button, { ButtonProps } from "@/components/ui/button-aria";
 
 type NumberFieldContextValue = NumberFieldState;
 
@@ -51,19 +52,27 @@ NumberField.displayName = "NumberField";
 const NumberFieldIncrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, ...props }, ref) => {
     const state = useNumberField();
+    let {
+      labelProps,
+      groupProps,
+      inputProps,
+      incrementButtonProps,
+      decrementButtonProps,
+    } = useNumberField(props, state, inputRef);
 
     return (
-      <Button
-        variant={"outline"}
-        size={"icon"}
-        type="button"
-        className={cn("aspect-square", className)}
-        onClick={state.increment}
-        ref={ref}
-        {...props}
-      >
-        <ChevronUpIcon />
-      </Button>
+      <Button {...incrementButtonProps}>-</Button>
+      // <Button
+      //   variant={"outline"}
+      //   size={"icon"}
+      //   type="button"
+      //   className={cn("aspect-square", className)}
+      //   onClick={state.increment}
+      //   ref={ref}
+      //   {...props}
+      // >
+      //   <ChevronUpIcon />
+      // </Button>
     );
   },
 );
