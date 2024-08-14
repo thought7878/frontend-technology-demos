@@ -18,25 +18,25 @@ import {
   NumberFieldIncrement,
   NumberFieldInput,
 } from "@/components/ui/my-number-input";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 // import { NumberField } from "@/components/ui/my-number-input-aria";
 
 export default function Page() {
   const form = useForm();
 
-  /* return (
-    <NumberField
-      label="Price"
-      defaultValue={6}
-      formatOptions={{
-        style: "currency",
-        currency: "USD",
-      }}
-    />
-  ); */
+  let ref = useRef<HTMLInputElement>(null);
+
+  console.log("function input ref", ref);
+
+  useEffect(() => {
+    console.log("useEffect input ref", ref);
+  }, [ref]);
+
   return (
     <NumberField
       defaultValue={8}
+      label="Price"
       // formatOptions={{
       //   style: "currency",
       //   currency: "USD",
@@ -48,17 +48,27 @@ export default function Page() {
       // onBlur={() => {}}
     >
       <NumberFieldDecrement />
-      <NumberFieldInput className="text-blue-500" />
+      <NumberFieldInput ref={ref} className="w-[100px] text-blue-500" />
       <NumberFieldIncrement />
     </NumberField>
   );
+  /* return (
+    <NumberField
+      label="Price"
+      defaultValue={6}
+      formatOptions={{
+        style: "currency",
+        currency: "USD",
+      }}
+    />
+  ); */
 
   /* return (
     <FormField
-      control={form.control}
-      name="exampleNumberField"
-      render={({ field }) => (
-        <FormItem>
+    control={form.control}
+    name="exampleNumberField"
+    render={({ field }) => (
+      <FormItem>
           <FormLabel>Example number Field</FormLabel>
           <FormControl>
             <NumberField {...field}>

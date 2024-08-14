@@ -44,15 +44,17 @@ const NumberField = React.forwardRef<
   const state = useNumberFieldState({ ...props, locale });
 
   // TODO: inputRef 需要处理
-  let inputRef = React.useRef(null);
+  let inputRef = React.useRef<HTMLInputElement>(null);
   let numberFieldProps = useNumberField(props, state, inputRef);
 
   return (
     <NumberFieldContext.Provider value={{ numberFieldProps, inputRef }}>
+      <label {...numberFieldProps.labelProps}>{props.label}</label>
       <div
         ref={ref}
         {...numberFieldProps.groupProps}
         className={cn("flex gap-1 rounded-md")}
+        aria-label="number field"
       >
         {children}
       </div>
@@ -92,16 +94,17 @@ const NumberFieldInput = React.forwardRef<HTMLInputElement, InputProps>(
     const { numberFieldProps, inputRef } = useNumberFieldContext();
 
     // TODO: 不确定是否可行
-    ref = inputRef as React.RefObject<HTMLInputElement>;
+    React.useEffect(() => {
+      if (inputRef) {
+        ref = inputRef;
+      }
+    }, [inputRef]);
 
     return (
       <Input
         ref={inputRef as React.RefObject<HTMLInputElement>}
         type="number"
-        className={cn(
-          "[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
-          className,
-        )}
+        className={`${className} [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none`}
         {...numberFieldProps.inputProps}
       />
     );
