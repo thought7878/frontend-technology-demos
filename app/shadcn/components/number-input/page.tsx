@@ -41,13 +41,14 @@ export default function Page() {
       //   style: "currency",
       //   currency: "USD",
       // }}
-      name="number"
-      value={1}
-      onChange={console.log}
-      onBlur={() => {}}
+
+      // name="number"
+      // value={1}
+      // onChange={console.log}
+      // onBlur={() => {}}
     >
       <NumberFieldDecrement />
-      <NumberFieldInput />
+      <NumberFieldInput className="text-blue-500" />
       <NumberFieldIncrement />
     </NumberField>
   );

@@ -14,7 +14,9 @@ import { cn } from "@/lib/utils";
 import { ControllerRenderProps } from "react-hook-form";
 import Button, { ButtonProps } from "@/components/ui/button-aria";
 
-type NumberFieldContextValue = NumberFieldAria;
+type NumberFieldContextValue = { numberFieldProps: NumberFieldAria } & {
+  inputRef?: React.RefObject<HTMLInputElement | null>;
+};
 
 const NumberFieldContext = React.createContext<NumberFieldContextValue>(
   {} as NumberFieldContextValue,
@@ -32,8 +34,8 @@ const useNumberFieldContext = () => {
   return numberFieldContext;
 };
 
-type NumberFieldProps = Partial<NumberFieldStateOptions> &
-  ControllerRenderProps;
+type NumberFieldProps = Partial<NumberFieldStateOptions>;
+// & ControllerRenderProps;
 const NumberField = React.forwardRef<
   HTMLDivElement,
   React.PropsWithChildren<NumberFieldProps>
@@ -46,7 +48,7 @@ const NumberField = React.forwardRef<
   let numberFieldProps = useNumberField(props, state, inputRef);
 
   return (
-    <NumberFieldContext.Provider value={numberFieldProps}>
+    <NumberFieldContext.Provider value={{ numberFieldProps, inputRef }}>
       <div
         ref={ref}
         {...numberFieldProps.groupProps}
@@ -61,31 +63,12 @@ NumberField.displayName = "NumberField";
 
 const NumberFieldIncrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, ...props }, ref) => {
-    const numberFieldProps = useNumberFieldContext();
-
-    // let {
-    //   labelProps,
-    //   groupProps,
-    //   inputProps,
-    //   incrementButtonProps,
-    //   decrementButtonProps,
-    // } = useNumberFieldContext(props, state, inputRef);
+    const { numberFieldProps } = useNumberFieldContext();
 
     return (
       <Button {...numberFieldProps.incrementButtonProps}>
         <ChevronUpIcon />
       </Button>
-      // <Button
-      //   variant={"outline"}
-      //   size={"icon"}
-      //   type="button"
-      //   className={cn("aspect-square", className)}
-      //   onClick={state.increment}
-      //   ref={ref}
-      //   {...props}
-      // >
-      //   <ChevronUpIcon />
-      // </Button>
     );
   },
 );
@@ -93,23 +76,12 @@ NumberFieldIncrement.displayName = "NumberFieldIncrement";
 
 const NumberFieldDecrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, ...props }, ref) => {
-    const numberFieldProps = useNumberFieldContext();
+    const { numberFieldProps } = useNumberFieldContext();
 
     return (
       <Button {...numberFieldProps.decrementButtonProps}>
         <ChevronDownIcon />
       </Button>
-      // <Button
-      //   variant={"outline"}
-      //   size={"icon"}
-      //   type="button"
-      //   className={cn("aspect-square", className)}
-      //   onClick={state.decrement}
-      //   ref={ref}
-      //   {...props}
-      // >
-      //   <ChevronDownIcon />
-      // </Button>
     );
   },
 );
@@ -117,11 +89,14 @@ NumberFieldDecrement.displayName = "NumberFieldDecrement";
 
 const NumberFieldInput = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
-    const numberFieldProps = useNumberFieldContext();
+    const { numberFieldProps, inputRef } = useNumberFieldContext();
+
+    // TODO: 不确定是否可行
+    ref = inputRef as React.RefObject<HTMLInputElement>;
 
     return (
       <Input
-        ref={ref}
+        ref={inputRef as React.RefObject<HTMLInputElement>}
         type="number"
         className={cn(
           "[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
@@ -129,17 +104,6 @@ const NumberFieldInput = React.forwardRef<HTMLInputElement, InputProps>(
         )}
         {...numberFieldProps.inputProps}
       />
-      // <Input
-      //   ref={ref}
-      //   type="number"
-      //   className={cn(
-      //     "[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
-      //     className,
-      //   )}
-      //   value={state.inputValue}
-      //   onChange={(e) => state.setInputValue(e.target.value)}
-      //   {...props}
-      // />
     );
   },
 );
