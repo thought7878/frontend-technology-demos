@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useLocale } from "react-aria";
+import { type NumberFieldAria, useLocale, useNumberField } from "react-aria";
 import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import {
   type NumberFieldState,
@@ -14,17 +14,19 @@ import { cn } from "@/lib/utils";
 import { ControllerRenderProps } from "react-hook-form";
 import Button, { ButtonProps } from "@/components/ui/button-aria";
 
-type NumberFieldContextValue = NumberFieldState;
+type NumberFieldContextValue = NumberFieldAria;
 
 const NumberFieldContext = React.createContext<NumberFieldContextValue>(
   {} as NumberFieldContextValue,
 );
 
-const useNumberField = () => {
+const useNumberFieldContext = () => {
   const numberFieldContext = React.useContext(NumberFieldContext);
 
   if (!numberFieldContext) {
-    throw new Error("useNumberField should be used within <NumberField>");
+    throw new Error(
+      "useNumberFieldContext should be used within <NumberField>",
+    );
   }
 
   return numberFieldContext;
@@ -39,9 +41,17 @@ const NumberField = React.forwardRef<
   const { locale } = useLocale();
   const state = useNumberFieldState({ ...props, locale });
 
+  // TODO: inputRef 需要处理
+  let inputRef = React.useRef(null);
+  let numberFieldProps = useNumberField(props, state, inputRef);
+
   return (
-    <NumberFieldContext.Provider value={state}>
-      <div ref={ref} className={cn("flex gap-1 rounded-md")}>
+    <NumberFieldContext.Provider value={numberFieldProps}>
+      <div
+        ref={ref}
+        {...numberFieldProps.groupProps}
+        className={cn("flex gap-1 rounded-md")}
+      >
         {children}
       </div>
     </NumberFieldContext.Provider>
@@ -51,17 +61,20 @@ NumberField.displayName = "NumberField";
 
 const NumberFieldIncrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, ...props }, ref) => {
-    const state = useNumberField();
-    let {
-      labelProps,
-      groupProps,
-      inputProps,
-      incrementButtonProps,
-      decrementButtonProps,
-    } = useNumberField(props, state, inputRef);
+    const numberFieldProps = useNumberFieldContext();
+
+    // let {
+    //   labelProps,
+    //   groupProps,
+    //   inputProps,
+    //   incrementButtonProps,
+    //   decrementButtonProps,
+    // } = useNumberFieldContext(props, state, inputRef);
 
     return (
-      <Button {...incrementButtonProps}>-</Button>
+      <Button {...numberFieldProps.incrementButtonProps}>
+        <ChevronUpIcon />
+      </Button>
       // <Button
       //   variant={"outline"}
       //   size={"icon"}
@@ -80,20 +93,23 @@ NumberFieldIncrement.displayName = "NumberFieldIncrement";
 
 const NumberFieldDecrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, ...props }, ref) => {
-    const state = useNumberField();
+    const numberFieldProps = useNumberFieldContext();
 
     return (
-      <Button
-        variant={"outline"}
-        size={"icon"}
-        type="button"
-        className={cn("aspect-square", className)}
-        onClick={state.decrement}
-        ref={ref}
-        {...props}
-      >
+      <Button {...numberFieldProps.decrementButtonProps}>
         <ChevronDownIcon />
       </Button>
+      // <Button
+      //   variant={"outline"}
+      //   size={"icon"}
+      //   type="button"
+      //   className={cn("aspect-square", className)}
+      //   onClick={state.decrement}
+      //   ref={ref}
+      //   {...props}
+      // >
+      //   <ChevronDownIcon />
+      // </Button>
     );
   },
 );
@@ -101,7 +117,7 @@ NumberFieldDecrement.displayName = "NumberFieldDecrement";
 
 const NumberFieldInput = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
-    const state = useNumberField();
+    const numberFieldProps = useNumberFieldContext();
 
     return (
       <Input
@@ -111,10 +127,19 @@ const NumberFieldInput = React.forwardRef<HTMLInputElement, InputProps>(
           "[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
           className,
         )}
-        value={state.inputValue}
-        onChange={(e) => state.setInputValue(e.target.value)}
-        {...props}
+        {...numberFieldProps.inputProps}
       />
+      // <Input
+      //   ref={ref}
+      //   type="number"
+      //   className={cn(
+      //     "[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
+      //     className,
+      //   )}
+      //   value={state.inputValue}
+      //   onChange={(e) => state.setInputValue(e.target.value)}
+      //   {...props}
+      // />
     );
   },
 );

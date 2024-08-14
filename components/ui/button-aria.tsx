@@ -3,7 +3,7 @@ import { ElementType } from "react";
 import { type AriaButtonOptions, useButton } from "react-aria";
 
 export type ButtonProps = AriaButtonOptions<ElementType> & {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 };
 export default function Button(props: ButtonProps) {
