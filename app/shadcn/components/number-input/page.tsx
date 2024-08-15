@@ -18,6 +18,7 @@ import {
   NumberFieldIncrement,
   NumberFieldInput,
 } from "@/components/ui/my-number-input";
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 // import { NumberField } from "@/components/ui/my-number-input-aria";
@@ -72,10 +73,15 @@ export default function Page() {
         <NumberFieldIncrement
           ref={buttonRef}
           className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-b-none p-0 hover:opacity-60 focus-visible:outline-none"
-        />
+        >
+          <ChevronUpIcon className="h-4 w-4" />
+        </NumberFieldIncrement>
         {/* <NumberFieldIncrement className="absolute right-0 top-0 rounded-b-none p-[2.5px] hover:opacity-60" /> */}
         <NumberFieldInput className="" />
-        <NumberFieldDecrement className="absolute bottom-0 right-0 flex h-5 w-5 items-center justify-center rounded-t-none p-0 hover:opacity-60 focus-visible:outline-none" />
+
+        <NumberFieldDecrement className="absolute bottom-0 right-0 flex h-5 w-5 items-center justify-center rounded-t-none p-0 hover:opacity-60 focus-visible:outline-none">
+          <ChevronDownIcon className="h-4 w-4" />
+        </NumberFieldDecrement>
       </NumberField>
     </div>
   );

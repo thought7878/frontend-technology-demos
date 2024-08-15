@@ -64,6 +64,7 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
     const { locale } = useLocale();
     const state = useNumberFieldState({ ...props, locale });
 
+    // TODO: inputRef是否可以有更好的处理方式
     let inputRef = React.useRef<HTMLInputElement>(null);
     let numberFieldProps = useNumberField(props, state, inputRef);
 
@@ -94,7 +95,8 @@ const NumberFieldIncrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <Button
-        {...numberFieldProps.incrementButtonProps}
+        // TODO: 是否有更优雅的方式
+        {...{ ...numberFieldProps.incrementButtonProps, ...props }}
         className={cn(
           "bg-primary text-primary-foreground hover:bg-primary/90",
           "rounded-md px-3 py-2",
@@ -104,9 +106,7 @@ const NumberFieldIncrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
         // ref={ref as React.MutableRefObject<HTMLButtonElement | null>}
         ref={ref}
         // ref={ref satisfies React.MutableRefObject<HTMLButtonElement | null>}
-      >
-        <ChevronUpIcon />
-      </Button>
+      ></Button>
     );
   },
 );
@@ -118,7 +118,8 @@ const NumberFieldDecrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <Button
-        {...numberFieldProps.decrementButtonProps}
+        // TODO: 是否有更优雅的方式
+        {...{ ...numberFieldProps.decrementButtonProps, ...props }}
         className={cn(
           "bg-primary text-primary-foreground hover:bg-primary/90",
           "rounded-md px-3 py-2",
@@ -126,9 +127,7 @@ const NumberFieldDecrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         // TODO: 类型没搞清楚
         ref={ref as React.MutableRefObject<HTMLButtonElement | null>}
-      >
-        <ChevronDownIcon />
-      </Button>
+      ></Button>
     );
   },
 );
@@ -138,6 +137,7 @@ const NumberFieldInput = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
     const { numberFieldProps, inputRef } = useNumberFieldContext();
 
+    // TODO: inputRef和ref是否有更好的处理方式
     React.useEffect(() => {
       if (ref && "current" in ref && inputRef?.current) {
         ref.current = inputRef?.current;
