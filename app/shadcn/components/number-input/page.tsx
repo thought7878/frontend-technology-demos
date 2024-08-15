@@ -30,39 +30,47 @@ export default function Page() {
   console.log("function input ref", ref);
 
   useEffect(() => {
-    console.log("useEffect input ref", ref);
     ref.current?.focus();
+    console.log("useEffect input ref", ref);
   }, [ref]);
 
   return (
-    <NumberField
-      defaultValue={8}
-      label="Price"
-      // formatOptions={{
-      //   style: "currency",
-      //   currency: "USD",
-      // }}
+    <div>
+      <NumberField
+        defaultValue={8}
+        label="默认样式"
+        // formatOptions={{
+        //   style: "currency",
+        //   currency: "USD",
+        // }}
 
-      // name="number"
-      // value={1}
-      // onChange={console.log}
-      // onBlur={() => {}}
-    >
-      <NumberFieldDecrement />
-      <NumberFieldInput ref={ref} className="w-[100px] text-blue-500" />
-      <NumberFieldIncrement />
-    </NumberField>
+        // name="number"
+        // value={1}
+        // onChange={console.log}
+        // onBlur={() => {}}
+      >
+        <NumberFieldDecrement />
+        <NumberFieldInput ref={ref} />
+        <NumberFieldIncrement />
+      </NumberField>
+
+      <NumberField
+        defaultValue={8}
+        label="自定义每个组件的样式"
+        className="mb-8 h-[80px]"
+      >
+        <NumberFieldDecrement className="border border-input bg-background hover:bg-accent hover:text-accent-foreground" />
+        <NumberFieldInput ref={ref} className="w-[100px] text-blue-500" />
+        <NumberFieldIncrement className="bg-blue-500" />
+      </NumberField>
+
+      <NumberField defaultValue={8} label="自定义button布局" className="">
+        <NumberFieldDecrement className="absolute right-0 top-0 p-1" />
+        <NumberFieldInput ref={ref} className="" />
+        <NumberFieldIncrement className="absolute bottom-0 right-0 p-1" />
+      </NumberField>
+    </div>
   );
-  /* return (
-    <NumberField
-      label="Price"
-      defaultValue={6}
-      formatOptions={{
-        style: "currency",
-        currency: "USD",
-      }}
-    />
-  ); */
 
   /* return (
     <FormField

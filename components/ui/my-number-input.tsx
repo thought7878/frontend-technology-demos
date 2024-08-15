@@ -34,34 +34,38 @@ const useNumberFieldContext = () => {
   return numberFieldContext;
 };
 
-type NumberFieldProps = Partial<NumberFieldStateOptions>;
+type NumberFieldProps = React.PropsWithChildren<
+  Partial<NumberFieldStateOptions> & { className?: string }
+>;
 // & ControllerRenderProps;
-const NumberField = React.forwardRef<
-  HTMLDivElement,
-  React.PropsWithChildren<NumberFieldProps>
->(({ children, ...props }, ref) => {
-  const { locale } = useLocale();
-  const state = useNumberFieldState({ ...props, locale });
+const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
+  ({ children, className, ...props }, ref) => {
+    const { locale } = useLocale();
+    const state = useNumberFieldState({ ...props, locale });
 
-  // TODO: inputRef 需要处理
-  let inputRef = React.useRef<HTMLInputElement>(null);
-  let numberFieldProps = useNumberField(props, state, inputRef);
+    // TODO: inputRef 需要处理
+    let inputRef = React.useRef<HTMLInputElement>(null);
+    let numberFieldProps = useNumberField(props, state, inputRef);
 
-  return (
-    <NumberFieldContext.Provider value={{ numberFieldProps, inputRef }}>
-      <label {...numberFieldProps.labelProps}>{props.label}</label>
-      <div
-        ref={ref}
-        {...numberFieldProps.groupProps}
-        className={cn("flex gap-1 rounded-md")}
-        // TODO: 需要处理
-        aria-label="number field"
-      >
-        {children}
-      </div>
-    </NumberFieldContext.Provider>
-  );
-});
+    return (
+      <NumberFieldContext.Provider value={{ numberFieldProps, inputRef }}>
+        <label {...numberFieldProps.labelProps}>{props.label}</label>
+        <div
+          ref={ref}
+          {...numberFieldProps.groupProps}
+          className={cn(
+            "relative flex items-center gap-1 rounded-md",
+            className,
+          )}
+          // TODO: 需要处理
+          aria-label="number field"
+        >
+          {children}
+        </div>
+      </NumberFieldContext.Provider>
+    );
+  },
+);
 NumberField.displayName = "NumberField";
 
 const NumberFieldIncrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -69,7 +73,14 @@ const NumberFieldIncrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const { numberFieldProps } = useNumberFieldContext();
 
     return (
-      <Button {...numberFieldProps.incrementButtonProps} className="">
+      <Button
+        {...numberFieldProps.incrementButtonProps}
+        className={cn(
+          "bg-primary text-primary-foreground hover:bg-primary/90",
+          "rounded-md px-3 py-2",
+          className,
+        )}
+      >
         <ChevronUpIcon />
       </Button>
     );
@@ -82,7 +93,14 @@ const NumberFieldDecrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const { numberFieldProps } = useNumberFieldContext();
 
     return (
-      <Button {...numberFieldProps.decrementButtonProps}>
+      <Button
+        {...numberFieldProps.decrementButtonProps}
+        className={cn(
+          "bg-primary text-primary-foreground hover:bg-primary/90",
+          "rounded-md px-3 py-2",
+          className,
+        )}
+      >
         <ChevronDownIcon />
       </Button>
     );
@@ -94,7 +112,6 @@ const NumberFieldInput = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
     const { numberFieldProps, inputRef } = useNumberFieldContext();
 
-    // TODO: 不确定是否可行
     React.useEffect(() => {
       if (ref && "current" in ref && inputRef?.current) {
         ref.current = inputRef?.current;
