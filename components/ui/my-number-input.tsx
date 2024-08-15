@@ -17,15 +17,11 @@ import { ControllerRenderProps } from "react-hook-form";
 const buttonVariants = cva("", {
   variants: {
     variant: {
-      inside: "bg-primary text-primary-foreground hover:bg-primary/90",
-      outside:
-        "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+      inside: "",
+      outside: "",
     },
     size: {
-      default: "h-10 px-4 py-2",
-      sm: "h-9 rounded-md px-3",
-      lg: "h-11 rounded-md px-8",
-      icon: "h-10 w-10",
+      default: "",
     },
   },
   defaultVariants: {
@@ -36,6 +32,7 @@ const buttonVariants = cva("", {
 
 type NumberFieldContextValue = { numberFieldProps: NumberFieldAria } & {
   inputRef?: React.RefObject<HTMLInputElement | null>;
+  btnPosition?: "inside" | "outside";
 };
 
 const NumberFieldContext = React.createContext<NumberFieldContextValue>(
@@ -53,11 +50,14 @@ const useNumberFieldContext = () => {
 };
 
 type NumberFieldProps = React.PropsWithChildren<
-  Partial<NumberFieldStateOptions> & { className?: string }
+  Partial<NumberFieldStateOptions> & {
+    className?: string;
+    btnPosition?: "inside" | "outside";
+  }
 >;
 // & ControllerRenderProps;
 const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
-  ({ children, className, ...props }, ref) => {
+  ({ children, className, btnPosition = "inside", ...props }, ref) => {
     const { locale } = useLocale();
     const state = useNumberFieldState({ ...props, locale });
 
@@ -66,7 +66,9 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
     let numberFieldProps = useNumberField(props, state, inputRef);
 
     return (
-      <NumberFieldContext.Provider value={{ numberFieldProps, inputRef }}>
+      <NumberFieldContext.Provider
+        value={{ numberFieldProps, inputRef, btnPosition }}
+      >
         <label {...numberFieldProps.labelProps}>{props.label}</label>
         <div
           ref={ref}
@@ -91,15 +93,17 @@ const NumberFieldIncrement = React.forwardRef<
   HTMLButtonElement,
   NumberFieldIncrementProps
 >(({ className, ...props }, ref) => {
-  const { numberFieldProps } = useNumberFieldContext();
+  const { numberFieldProps, btnPosition } = useNumberFieldContext();
 
   return (
     <Button
       // TODO: 是否有更优雅的方式
       {...{ ...numberFieldProps.incrementButtonProps, ...props }}
       className={cn(
-        "bg-primary text-primary-foreground hover:bg-primary/90",
-        "rounded-md px-3 py-2",
+        "rounded-md bg-primary px-3 py-2 text-primary-foreground hover:bg-primary/90",
+        btnPosition === "outside"
+          ? ""
+          : "absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-b-none p-0 hover:opacity-60 focus-visible:outline-none",
         className,
       )}
       // TODO: 类型没搞清楚
@@ -116,15 +120,17 @@ const NumberFieldDecrement = React.forwardRef<
   HTMLButtonElement,
   NumberFieldDecrementProps
 >(({ className, ...props }, ref) => {
-  const { numberFieldProps } = useNumberFieldContext();
+  const { numberFieldProps, btnPosition } = useNumberFieldContext();
 
   return (
     <Button
       // TODO: 是否有更优雅的方式
       {...{ ...numberFieldProps.decrementButtonProps, ...props }}
       className={cn(
-        "bg-primary text-primary-foreground hover:bg-primary/90",
-        "rounded-md px-3 py-2",
+        "rounded-md bg-primary px-3 py-2 text-primary-foreground hover:bg-primary/60",
+        btnPosition === "outside"
+          ? ""
+          : "absolute bottom-0 right-0 flex h-5 w-5 items-center justify-center rounded-t-none p-0 hover:bg-primary/60 focus-visible:outline-none",
         className,
       )}
       // TODO: 类型没搞清楚

@@ -44,6 +44,7 @@ export default function Page() {
       <NumberField
         defaultValue={8}
         label="默认样式"
+        btnPosition="outside"
         // formatOptions={{
         //   style: "currency",
         //   currency: "USD",
@@ -54,9 +55,13 @@ export default function Page() {
         // onChange={console.log}
         // onBlur={() => {}}
       >
-        <NumberFieldDecrement />
+        <NumberFieldDecrement>
+          <ChevronDownIcon className="h-4 w-4" />
+        </NumberFieldDecrement>
         <NumberFieldInput ref={ref} />
-        <NumberFieldIncrement />
+        <NumberFieldIncrement>
+          <ChevronUpIcon className="h-4 w-4" />
+        </NumberFieldIncrement>
       </NumberField>
 
       <NumberField
@@ -64,22 +69,22 @@ export default function Page() {
         label="自定义每个组件的样式"
         className="mb-8 h-[80px]"
       >
-        <NumberFieldDecrement className="border border-input bg-background hover:bg-accent hover:text-accent-foreground" />
+        <NumberFieldDecrement className="border border-input bg-background hover:bg-accent hover:text-accent-foreground">
+          <ChevronDownIcon className="h-4 w-4" />
+        </NumberFieldDecrement>
         <NumberFieldInput className="w-[100px] text-blue-500" />
-        <NumberFieldIncrement className="bg-blue-500" />
+        <NumberFieldIncrement className="bg-blue-500">
+          <ChevronUpIcon className="h-4 w-4" />
+        </NumberFieldIncrement>
       </NumberField>
 
       <NumberField defaultValue={8} label="自定义button布局" className="">
-        <NumberFieldIncrement
-          ref={buttonRef}
-          className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-b-none p-0 hover:opacity-60 focus-visible:outline-none"
-        >
+        <NumberFieldIncrement ref={buttonRef} className="">
           <ChevronUpIcon className="h-4 w-4" />
         </NumberFieldIncrement>
         {/* <NumberFieldIncrement className="absolute right-0 top-0 rounded-b-none p-[2.5px] hover:opacity-60" /> */}
         <NumberFieldInput className="" />
-
-        <NumberFieldDecrement className="absolute bottom-0 right-0 flex h-5 w-5 items-center justify-center rounded-t-none p-0 hover:opacity-60 focus-visible:outline-none">
+        <NumberFieldDecrement className="">
           <ChevronDownIcon className="h-4 w-4" />
         </NumberFieldDecrement>
       </NumberField>
