@@ -64,7 +64,6 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
     const { locale } = useLocale();
     const state = useNumberFieldState({ ...props, locale });
 
-    // TODO: inputRef 需要处理
     let inputRef = React.useRef<HTMLInputElement>(null);
     let numberFieldProps = useNumberField(props, state, inputRef);
 
@@ -101,6 +100,10 @@ const NumberFieldIncrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
           "rounded-md px-3 py-2",
           className,
         )}
+        // TODO: 类型没搞清楚
+        // ref={ref as React.MutableRefObject<HTMLButtonElement | null>}
+        ref={ref}
+        // ref={ref satisfies React.MutableRefObject<HTMLButtonElement | null>}
       >
         <ChevronUpIcon />
       </Button>
@@ -121,6 +124,8 @@ const NumberFieldDecrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
           "rounded-md px-3 py-2",
           className,
         )}
+        // TODO: 类型没搞清楚
+        ref={ref as React.MutableRefObject<HTMLButtonElement | null>}
       >
         <ChevronDownIcon />
       </Button>
@@ -141,6 +146,7 @@ const NumberFieldInput = React.forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <Input
+        // TODO: 类型没搞清楚
         ref={inputRef as React.RefObject<HTMLInputElement>}
         type="number"
         className={`${className} [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none`}

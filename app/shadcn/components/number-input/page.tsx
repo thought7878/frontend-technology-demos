@@ -26,12 +26,16 @@ export default function Page() {
   const form = useForm();
 
   let ref = useRef<HTMLInputElement>(null);
+  let buttonRef = useRef<HTMLButtonElement>(null);
 
-  console.log("function input ref", ref);
+  // console.log("function input ref", ref);
+  console.log("function buttonRef", buttonRef);
 
   useEffect(() => {
-    ref.current?.focus();
-    console.log("useEffect input ref", ref);
+    // ref.current?.focus();
+    // console.log("useEffect input ref", ref);
+    console.log("useEffect buttonRef", buttonRef);
+    console.log(buttonRef.current?.className);
   }, [ref]);
 
   return (
@@ -65,7 +69,10 @@ export default function Page() {
       </NumberField>
 
       <NumberField defaultValue={8} label="自定义button布局" className="">
-        <NumberFieldIncrement className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-b-none p-0 hover:opacity-60 focus-visible:outline-none" />
+        <NumberFieldIncrement
+          ref={buttonRef}
+          className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-b-none p-0 hover:opacity-60 focus-visible:outline-none"
+        />
         {/* <NumberFieldIncrement className="absolute right-0 top-0 rounded-b-none p-[2.5px] hover:opacity-60" /> */}
         <NumberFieldInput className="" />
         <NumberFieldDecrement className="absolute bottom-0 right-0 flex h-5 w-5 items-center justify-center rounded-t-none p-0 hover:opacity-60 focus-visible:outline-none" />
