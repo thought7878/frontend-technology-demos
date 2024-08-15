@@ -60,14 +60,15 @@ export default function Page() {
         className="mb-8 h-[80px]"
       >
         <NumberFieldDecrement className="border border-input bg-background hover:bg-accent hover:text-accent-foreground" />
-        <NumberFieldInput ref={ref} className="w-[100px] text-blue-500" />
+        <NumberFieldInput className="w-[100px] text-blue-500" />
         <NumberFieldIncrement className="bg-blue-500" />
       </NumberField>
 
       <NumberField defaultValue={8} label="自定义button布局" className="">
-        <NumberFieldDecrement className="absolute right-0 top-0 p-1" />
-        <NumberFieldInput ref={ref} className="" />
-        <NumberFieldIncrement className="absolute bottom-0 right-0 p-1" />
+        <NumberFieldIncrement className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-b-none p-0 hover:opacity-60 focus-visible:outline-none" />
+        {/* <NumberFieldIncrement className="absolute right-0 top-0 rounded-b-none p-[2.5px] hover:opacity-60" /> */}
+        <NumberFieldInput className="" />
+        <NumberFieldDecrement className="absolute bottom-0 right-0 flex h-5 w-5 items-center justify-center rounded-t-none p-0 hover:opacity-60 focus-visible:outline-none" />
       </NumberField>
     </div>
   );

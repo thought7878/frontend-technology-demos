@@ -1,18 +1,39 @@
 "use client";
 
+import { Input, InputProps } from "@/components/ui/input";
+import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import * as React from "react";
 import { type NumberFieldAria, useLocale, useNumberField } from "react-aria";
-import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import {
   type NumberFieldState,
-  useNumberFieldState,
   NumberFieldStateOptions,
+  useNumberFieldState,
 } from "react-stately";
-import { Input, InputProps } from "@/components/ui/input";
 // import { Button, ButtonProps } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { ControllerRenderProps } from "react-hook-form";
 import Button, { ButtonProps } from "@/components/ui/button-aria";
+import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
+import { ControllerRenderProps } from "react-hook-form";
+
+const buttonVariants = cva("", {
+  variants: {
+    variant: {
+      inside: "bg-primary text-primary-foreground hover:bg-primary/90",
+      outside:
+        "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+    },
+    size: {
+      default: "h-10 px-4 py-2",
+      sm: "h-9 rounded-md px-3",
+      lg: "h-11 rounded-md px-8",
+      icon: "h-10 w-10",
+    },
+  },
+  defaultVariants: {
+    variant: "inside",
+    size: "default",
+  },
+});
 
 type NumberFieldContextValue = { numberFieldProps: NumberFieldAria } & {
   inputRef?: React.RefObject<HTMLInputElement | null>;
@@ -132,9 +153,9 @@ NumberFieldInput.displayName = "NumberFieldInput";
 
 export {
   NumberField,
-  NumberFieldInput,
   NumberFieldDecrement,
   NumberFieldIncrement,
+  NumberFieldInput,
 };
 
 /* 
