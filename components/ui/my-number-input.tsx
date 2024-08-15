@@ -54,6 +54,7 @@ const NumberField = React.forwardRef<
         ref={ref}
         {...numberFieldProps.groupProps}
         className={cn("flex gap-1 rounded-md")}
+        // TODO: 需要处理
         aria-label="number field"
       >
         {children}
@@ -68,7 +69,7 @@ const NumberFieldIncrement = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const { numberFieldProps } = useNumberFieldContext();
 
     return (
-      <Button {...numberFieldProps.incrementButtonProps}>
+      <Button {...numberFieldProps.incrementButtonProps} className="">
         <ChevronUpIcon />
       </Button>
     );
@@ -95,8 +96,8 @@ const NumberFieldInput = React.forwardRef<HTMLInputElement, InputProps>(
 
     // TODO: 不确定是否可行
     React.useEffect(() => {
-      if (inputRef) {
-        ref = inputRef;
+      if (ref && "current" in ref && inputRef?.current) {
+        ref.current = inputRef?.current;
       }
     }, [inputRef]);
 

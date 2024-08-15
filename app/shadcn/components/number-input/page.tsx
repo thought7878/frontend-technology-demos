@@ -31,6 +31,7 @@ export default function Page() {
 
   useEffect(() => {
     console.log("useEffect input ref", ref);
+    ref.current?.focus();
   }, [ref]);
 
   return (
