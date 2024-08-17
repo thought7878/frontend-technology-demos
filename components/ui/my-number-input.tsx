@@ -34,7 +34,6 @@ type NumberFieldContextValue = { numberFieldProps: NumberFieldAria } & {
   inputRef?: React.RefObject<HTMLInputElement | null>;
   btnPosition?: "inside" | "outside";
 };
-
 const NumberFieldContext = React.createContext<NumberFieldContextValue>(
   {} as NumberFieldContextValue,
 );
@@ -100,10 +99,10 @@ const NumberFieldIncrement = React.forwardRef<
       // TODO: 是否有更优雅的方式
       {...{ ...numberFieldProps.incrementButtonProps, ...props }}
       className={cn(
-        "rounded-md bg-primary px-3 py-2 text-primary-foreground hover:bg-primary/90",
+        "rounded-md bg-primary text-primary-foreground transition-all hover:bg-primary/60",
         btnPosition === "outside"
-          ? ""
-          : "absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-b-none p-0 hover:opacity-60 focus-visible:outline-none",
+          ? "px-3 py-2"
+          : "absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-b-none p-0 focus-visible:outline-none",
         className,
       )}
       // TODO: 类型没搞清楚
@@ -127,10 +126,10 @@ const NumberFieldDecrement = React.forwardRef<
       // TODO: 是否有更优雅的方式
       {...{ ...numberFieldProps.decrementButtonProps, ...props }}
       className={cn(
-        "rounded-md bg-primary px-3 py-2 text-primary-foreground hover:bg-primary/60",
+        "rounded-md bg-primary text-primary-foreground transition-all hover:bg-primary/60",
         btnPosition === "outside"
-          ? ""
-          : "absolute bottom-0 right-0 flex h-5 w-5 items-center justify-center rounded-t-none p-0 hover:bg-primary/60 focus-visible:outline-none",
+          ? "px-3 py-2"
+          : "absolute bottom-0 right-0 flex h-5 w-5 items-center justify-center rounded-t-none p-0 focus-visible:outline-none",
         className,
       )}
       // TODO: 类型没搞清楚
