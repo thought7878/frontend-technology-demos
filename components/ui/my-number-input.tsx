@@ -57,7 +57,7 @@ type NumberFieldProps = React.PropsWithChildren<
   Partial<AriaNumberFieldProps> & {
     className?: string;
     btnPosition?: "inside" | "outside";
-  } & Pick<NumberFieldStateOptions, "locale">
+  } & Partial<Pick<NumberFieldStateOptions, "locale">>
 >;
 // & ControllerRenderProps;
 const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(

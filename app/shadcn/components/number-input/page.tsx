@@ -44,7 +44,15 @@ export default function Page() {
       <NumberField
         defaultValue={18}
         label="btnPosition: inside"
-        locale="en-US"
+        step={8} //bug：defaultValue={18},显示16
+        isDisabled
+        // locale="zh-CN"
+        // formatOptions={{
+        //   // https://react-spectrum.adobe.com/react-aria/useNumberField.html#currency-values
+        //   style: "currency",
+        //   currency: "CNY",
+        // }}
+        // decrementAriaLabel="减少 label"
         // isWheelDisabled
         // maxValue={10}
         // minValue={0}
