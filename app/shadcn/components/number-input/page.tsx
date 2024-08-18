@@ -44,8 +44,9 @@ export default function Page() {
       <NumberField
         defaultValue={18}
         label="btnPosition: inside"
+        // name
         step={8} //bug：defaultValue={18},显示16
-        isDisabled
+        // isDisabled
         // locale="zh-CN"
         // formatOptions={{
         //   // https://react-spectrum.adobe.com/react-aria/useNumberField.html#currency-values
