@@ -71,6 +71,7 @@ export default function Page() {
         defaultValue={8}
         label="默认样式/outside"
         btnPosition="outside"
+        isDisabled
         // isWheelDisabled
         // formatOptions={{
         //   style: "currency",

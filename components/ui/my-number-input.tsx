@@ -72,7 +72,7 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
     ref,
   ) => {
     const hookLocale = useLocale().locale;
-    const locale = customLocale ?? hookLocale;
+    const locale = customLocale || hookLocale;
 
     const state = useNumberFieldState({ ...props, locale });
 
@@ -93,7 +93,7 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
             className,
           )}
           // TODO: 需要处理
-          aria-label="number field"
+          // aria-label="number field"
         >
           {children}
         </div>
@@ -115,7 +115,7 @@ const NumberFieldIncrement = React.forwardRef<
       // TODO: 是否有更优雅的方式
       {...{ ...numberFieldProps.incrementButtonProps, ...props }}
       className={cn(
-        "rounded-md bg-primary text-primary-foreground transition-all hover:bg-primary/60",
+        "z-10 rounded-md bg-primary text-primary-foreground transition-all enabled:hover:bg-primary/60 disabled:cursor-not-allowed disabled:opacity-50",
         btnPosition === "outside"
           ? "px-3 py-2"
           : "absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-b-none p-0 focus-visible:outline-none",
@@ -142,7 +142,7 @@ const NumberFieldDecrement = React.forwardRef<
       // TODO: 是否有更优雅的方式
       {...{ ...numberFieldProps.decrementButtonProps, ...props }}
       className={cn(
-        "rounded-md bg-primary text-primary-foreground transition-all hover:bg-primary/60",
+        "z-10 rounded-md bg-primary text-primary-foreground transition-all enabled:hover:bg-primary/60 disabled:cursor-not-allowed disabled:opacity-50",
         btnPosition === "outside"
           ? "px-3 py-2"
           : "absolute bottom-0 right-0 flex h-5 w-5 items-center justify-center rounded-t-none p-0 focus-visible:outline-none",
