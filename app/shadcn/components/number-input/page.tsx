@@ -42,9 +42,28 @@ export default function Page() {
   return (
     <div>
       <NumberField
+        defaultValue={18}
+        label="btnPosition: inside"
+        locale="en-US"
+        // isWheelDisabled
+        // maxValue={10}
+        // minValue={0}
+      >
+        <NumberFieldIncrement ref={buttonRef}>
+          <ChevronUpIcon className="h-4 w-4" />
+        </NumberFieldIncrement>
+        {/* <NumberFieldIncrement className="absolute right-0 top-0 rounded-b-none p-[2.5px] hover:opacity-60" /> */}
+        <NumberFieldInput />
+        <NumberFieldDecrement>
+          <ChevronDownIcon className="h-4 w-4" />
+        </NumberFieldDecrement>
+      </NumberField>
+
+      <NumberField
         defaultValue={8}
         label="默认样式/outside"
         btnPosition="outside"
+        // isWheelDisabled
         // formatOptions={{
         //   style: "currency",
         //   currency: "USD",
@@ -77,22 +96,6 @@ export default function Page() {
         <NumberFieldIncrement className="bg-blue-500">
           <ChevronUpIcon className="h-4 w-4" />
         </NumberFieldIncrement>
-      </NumberField>
-
-      <NumberField
-        defaultValue={18}
-        label="btnPosition: inside"
-        maxValue={10}
-        minValue={0}
-      >
-        <NumberFieldIncrement ref={buttonRef}>
-          <ChevronUpIcon className="h-4 w-4" />
-        </NumberFieldIncrement>
-        {/* <NumberFieldIncrement className="absolute right-0 top-0 rounded-b-none p-[2.5px] hover:opacity-60" /> */}
-        <NumberFieldInput />
-        <NumberFieldDecrement>
-          <ChevronDownIcon className="h-4 w-4" />
-        </NumberFieldDecrement>
       </NumberField>
 
       <NumberField

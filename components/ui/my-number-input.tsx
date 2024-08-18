@@ -2,7 +2,12 @@
 
 import { Input, InputProps } from "@/components/ui/input";
 import * as React from "react";
-import { type NumberFieldAria, useLocale, useNumberField } from "react-aria";
+import {
+  AriaNumberFieldProps,
+  type NumberFieldAria,
+  useLocale,
+  useNumberField,
+} from "react-aria";
 import {
   type NumberFieldState,
   NumberFieldStateOptions,
@@ -49,15 +54,26 @@ const useNumberFieldContext = () => {
 };
 
 type NumberFieldProps = React.PropsWithChildren<
-  Partial<NumberFieldStateOptions> & {
+  Partial<AriaNumberFieldProps> & {
     className?: string;
     btnPosition?: "inside" | "outside";
-  }
+  } & Pick<NumberFieldStateOptions, "locale">
 >;
 // & ControllerRenderProps;
 const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
-  ({ children, className, btnPosition = "inside", ...props }, ref) => {
-    const { locale } = useLocale();
+  (
+    {
+      children,
+      className,
+      btnPosition = "inside",
+      locale: customLocale,
+      ...props
+    },
+    ref,
+  ) => {
+    const hookLocale = useLocale().locale;
+    const locale = customLocale ?? hookLocale;
+
     const state = useNumberFieldState({ ...props, locale });
 
     // TODO: inputRef是否可以有更好的处理方式
