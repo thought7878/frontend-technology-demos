@@ -155,7 +155,7 @@ const NumberFieldDecrement = React.forwardRef<
 });
 NumberFieldDecrement.displayName = "NumberFieldDecrement";
 
-type NumberFieldInputProps = InputProps;
+type NumberFieldInputProps = Omit<InputProps, "onChange">;
 const NumberFieldInput = React.forwardRef<
   HTMLInputElement,
   NumberFieldInputProps
