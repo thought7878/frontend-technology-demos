@@ -44,6 +44,9 @@ export default function Page() {
       <NumberField
         defaultValue={18}
         label="btnPosition: inside"
+        onChange={(v) => {
+          console.log("onChange");
+        }}
         // name
         step={8} //bug：defaultValue={18},显示16
         // isDisabled

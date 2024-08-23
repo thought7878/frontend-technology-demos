@@ -13,8 +13,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  NumberField,
+  NumberFieldDecrement,
+  NumberFieldIncrement,
+  NumberFieldInput,
+} from "@/components/ui/my-number-input";
 // 导入zodResolver用于表单验证
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 // 导入useForm钩子用于React表单处理
 import { useForm } from "react-hook-form";
 // 导入z用于定义表单的验证规则
@@ -30,6 +37,7 @@ const formSchema = z.object({
   password: z.string().min(2, {
     message: "Password must be at least 2 characters.",
   }),
+  count: z.number().nonnegative(),
 });
 
 // ProfileForm组件用于展示和处理用户表单
@@ -42,6 +50,7 @@ export default function ProfileForm() {
     defaultValues: {
       username: "",
       password: "",
+      count: 0,
     },
   });
 
@@ -56,6 +65,45 @@ export default function ProfileForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {/* number input */}
+        <FormField
+          control={form.control}
+          name="count"
+          render={({ field: { onChange, value, name } }) => (
+            <FormItem>
+              <FormLabel>Count</FormLabel>
+              <FormControl>
+                <NumberField
+                  // defaultValue={8}
+                  label="*number input*"
+                  // className="mb-8 h-[80px]"
+                  // btnPosition="outside"
+                  onChange={onChange}
+                  value={value}
+                >
+                  <NumberFieldDecrement>
+                    <ChevronDownIcon className="h-4 w-4" />
+                  </NumberFieldDecrement>
+                  <NumberFieldInput
+                  // value={value}
+                  // TODO: 这里的onChange无用，在 NumberField 配置onChange
+                  // onChange={(v) => {
+                  //   // onChange(v);
+                  //   console.log("NumberFieldInput onChange");
+                  // }}
+
+                  // name={name}
+                  />
+                  <NumberFieldIncrement>
+                    <ChevronUpIcon className="h-4 w-4" />
+                  </NumberFieldIncrement>
+                </NumberField>
+              </FormControl>
+              <FormDescription>This is count.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         {/* 用户名输入字段 */}
         <FormField
           control={form.control}
