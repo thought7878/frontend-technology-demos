@@ -26,6 +26,10 @@ const formSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
+  // 用户名必须至少为2个字符
+  password: z.string().min(2, {
+    message: "Password must be at least 2 characters.",
+  }),
 });
 
 // ProfileForm组件用于展示和处理用户表单
@@ -37,6 +41,7 @@ export default function ProfileForm() {
     // 默认表单值
     defaultValues: {
       username: "",
+      password: "",
     },
   });
 
@@ -64,6 +69,21 @@ export default function ProfileForm() {
               <FormDescription>
                 This is your public display name.
               </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* 密码输入字段 */}
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input placeholder="shadcn" {...field} />
+              </FormControl>
+              <FormDescription>This is your password.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
