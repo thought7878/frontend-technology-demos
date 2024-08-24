@@ -80,19 +80,20 @@ export default function ProfileForm() {
                   // btnPosition="outside"
                   onChange={onChange}
                   value={value}
+                  // TODO: name与NumberFieldInput有矛盾
+                  name={"test"}
                 >
                   <NumberFieldDecrement>
                     <ChevronDownIcon className="h-4 w-4" />
                   </NumberFieldDecrement>
                   <NumberFieldInput
-                  // value={value}
-                  // TODO: 这里的onChange无用，在 NumberField 配置onChange
-                  // onChange={(v) => {
-                  //   // onChange(v);
-                  //   console.log("NumberFieldInput onChange");
-                  // }}
-
-                  // name={name}
+                    // TODO: 这里的name / onChange无用，在 NumberField 配置onChange
+                    // name={"name"}
+                    // value={value}
+                    onChange={(v) => {
+                      // onChange(v);
+                      console.log("NumberFieldInput onChange:", v);
+                    }}
                   />
                   <NumberFieldIncrement>
                     <ChevronUpIcon className="h-4 w-4" />

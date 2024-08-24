@@ -55,6 +55,7 @@ const useNumberFieldContext = () => {
 
 type NumberFieldProps = React.PropsWithChildren<
   Partial<AriaNumberFieldProps> & {
+    name?: string;
     className?: string;
     btnPosition?: "inside" | "outside";
   } & Partial<Pick<NumberFieldStateOptions, "locale">>
@@ -79,6 +80,9 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
     // TODO: inputRef是否可以有更好的处理方式
     let inputRef = React.useRef<HTMLInputElement>(null);
     let numberFieldProps = useNumberField(props, state, inputRef);
+
+    // TODO: 应该是bug，可以提交PR。
+    numberFieldProps.inputProps.name = props.name;
 
     return (
       <NumberFieldContext.Provider
@@ -155,7 +159,8 @@ const NumberFieldDecrement = React.forwardRef<
 });
 NumberFieldDecrement.displayName = "NumberFieldDecrement";
 
-type NumberFieldInputProps = Omit<InputProps, "onChange">;
+type NumberFieldInputProps = InputProps;
+// type NumberFieldInputProps = Omit<InputProps, "onChange">;
 const NumberFieldInput = React.forwardRef<
   HTMLInputElement,
   NumberFieldInputProps
@@ -168,6 +173,7 @@ const NumberFieldInput = React.forwardRef<
       ref.current = inputRef?.current;
     }
   }, [inputRef]);
+  // console.log("numberFieldProps.inputProps:", numberFieldProps.inputProps);
 
   return (
     <Input
