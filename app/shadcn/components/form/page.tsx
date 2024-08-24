@@ -75,7 +75,7 @@ export default function ProfileForm() {
               <FormControl>
                 <NumberField
                   // defaultValue={8}
-                  label="*number input*"
+                  // label="*number input*"
                   // className="mb-8 h-[80px]"
                   // btnPosition="outside"
                   onChange={onChange}
