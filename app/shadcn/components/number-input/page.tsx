@@ -14,9 +14,11 @@ import {
 // } from "@/components/ui/my-number-input_git";
 import {
   NumberField,
+  NumberFieldContent,
   NumberFieldDecrement,
   NumberFieldIncrement,
   NumberFieldInput,
+  NumberFieldLabel,
 } from "@/components/ui/my-number-input";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
@@ -41,14 +43,15 @@ export default function Page() {
 
   return (
     <div>
+      {/* <NumberFieldLabel>btnPosition: inside</NumberFieldLabel> */}
       <NumberField
         defaultValue={18}
-        label="btnPosition: inside"
+        // label="btnPosition: inside"
         onChange={(v) => {
           console.log("onChange");
         }}
         // name
-        step={8} //bug：defaultValue={18},显示16
+        // step={8} //bug：defaultValue={18},显示16
         // isDisabled
         // locale="zh-CN"
         // formatOptions={{
@@ -61,14 +64,17 @@ export default function Page() {
         // maxValue={10}
         // minValue={0}
       >
-        <NumberFieldIncrement ref={buttonRef}>
-          <ChevronUpIcon className="h-4 w-4" />
-        </NumberFieldIncrement>
-        {/* <NumberFieldIncrement className="absolute right-0 top-0 rounded-b-none p-[2.5px] hover:opacity-60" /> */}
-        <NumberFieldInput />
-        <NumberFieldDecrement>
-          <ChevronDownIcon className="h-4 w-4" />
-        </NumberFieldDecrement>
+        <NumberFieldLabel>Count: </NumberFieldLabel>
+        <NumberFieldContent>
+          <NumberFieldIncrement ref={buttonRef}>
+            <ChevronUpIcon className="h-4 w-4" />
+          </NumberFieldIncrement>
+          {/* <NumberFieldIncrement className="absolute right-0 top-0 rounded-b-none p-[2.5px] hover:opacity-60" /> */}
+          <NumberFieldInput />
+          <NumberFieldDecrement>
+            <ChevronDownIcon className="h-4 w-4" />
+          </NumberFieldDecrement>
+        </NumberFieldContent>
       </NumberField>
 
       <NumberField
