@@ -18,8 +18,8 @@ import Button, { ButtonProps } from "@/components/ui/button-aria";
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { ControllerRenderProps } from "react-hook-form";
-
-const buttonVariants = cva("", {
+/* 
+const numberFieldVariants = cva("", {
   variants: {
     variant: {
       inside: "",
@@ -34,12 +34,15 @@ const buttonVariants = cva("", {
     size: "default",
   },
 });
+ */
 
-type NumberFieldContextValue = { numberFieldProps: NumberFieldAria } & {
+interface NumberFieldContextValue {
+  numberFieldProps: NumberFieldAria;
   inputRef?: React.RefObject<HTMLInputElement | null>;
   btnPosition?: "inside" | "outside";
   labelPosition?: "left" | "top";
-};
+}
+
 const NumberFieldContext = React.createContext<NumberFieldContextValue>(
   {} as NumberFieldContextValue,
 );
@@ -83,8 +86,8 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
     const state = useNumberFieldState({ ...props, locale });
 
     // TODO: inputRef是否可以有更好的处理方式
-    let inputRef = React.useRef<HTMLInputElement>(null);
-    let numberFieldProps = useNumberField(props, state, inputRef);
+    const inputRef = React.useRef<HTMLInputElement>(null);
+    const numberFieldProps = useNumberField(props, state, inputRef);
 
     // TODO: 应该是bug，可以提交PR。react-aria，没有输入框的name属性
     numberFieldProps.inputProps.name = props.name;
@@ -101,8 +104,6 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
           ref={ref}
           {...numberFieldProps.groupProps}
           className={cn(
-            // "flex items-center gap-1",
-            // "relative flex items-center gap-1 rounded-md",
             labelPosition === "left" ? "flex items-center gap-1" : "",
             className,
           )}
