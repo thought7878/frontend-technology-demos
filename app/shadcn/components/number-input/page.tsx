@@ -46,7 +46,7 @@ export default function Page() {
       {/* <NumberFieldLabel>btnPosition: inside</NumberFieldLabel> */}
       <NumberField
         defaultValue={18}
-        label="btnPosition: inside"
+        // label="btnPosition: inside"
         onChange={(v) => {
           console.log("onChange");
         }}

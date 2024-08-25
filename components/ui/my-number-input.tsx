@@ -68,12 +68,14 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
       className,
       btnPosition = "inside",
       locale: customLocale,
+      // label = "for bug",
       ...props
     },
     ref,
   ) => {
     const hookLocale = useLocale().locale;
     const locale = customLocale || hookLocale;
+    props.label = props.label || props.name || "label";
 
     const state = useNumberFieldState({ ...props, locale });
 
@@ -89,9 +91,9 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
         value={{ numberFieldProps, inputRef, btnPosition }}
       >
         {/* TODO: 应该单独抽离 NumberFieldLabel 组件 */}
-        {props.label && (
-          <label {...numberFieldProps.labelProps}>{props.label}</label>
-        )}
+        {/* {label && (
+          <label {...numberFieldProps.labelProps}>{label}</label>
+        )} */}
         <div
           ref={ref}
           {...numberFieldProps.groupProps}
