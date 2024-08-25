@@ -47,6 +47,8 @@ export default function Page() {
       <NumberField
         defaultValue={18}
         // label="btnPosition: inside"
+        // labelPosition="top"
+        // btnPosition="inside"
         onChange={(v) => {
           console.log("onChange");
         }}
@@ -65,7 +67,7 @@ export default function Page() {
         // minValue={0}
       >
         <NumberFieldLabel className="text-blue-500">Count: </NumberFieldLabel>
-        <NumberFieldContent>
+        <NumberFieldContent className="">
           <NumberFieldIncrement ref={buttonRef}>
             <ChevronUpIcon className="h-4 w-4" />
           </NumberFieldIncrement>

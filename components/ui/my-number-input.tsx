@@ -38,6 +38,7 @@ const buttonVariants = cva("", {
 type NumberFieldContextValue = { numberFieldProps: NumberFieldAria } & {
   inputRef?: React.RefObject<HTMLInputElement | null>;
   btnPosition?: "inside" | "outside";
+  labelPosition?: "left" | "top";
 };
 const NumberFieldContext = React.createContext<NumberFieldContextValue>(
   {} as NumberFieldContextValue,
@@ -68,6 +69,7 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
       children,
       className,
       btnPosition = "inside",
+      labelPosition = "left",
       locale: customLocale,
       // label = "for bug",
       ...props
@@ -89,7 +91,7 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
 
     return (
       <NumberFieldContext.Provider
-        value={{ numberFieldProps, inputRef, btnPosition }}
+        value={{ numberFieldProps, inputRef, btnPosition, labelPosition }}
       >
         {/* TODO: 应该单独抽离 NumberFieldLabel 组件 */}
         {/* {label && (
@@ -101,6 +103,7 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
           className={cn(
             // "flex items-center gap-1",
             // "relative flex items-center gap-1 rounded-md",
+            labelPosition === "left" ? "flex items-center gap-1" : "",
             className,
           )}
           // TODO: 需要处理
@@ -132,16 +135,19 @@ const NumberFieldLabel = React.forwardRef<
   HTMLLabelElement,
   NumberFieldLabelProps
 >(({ className, children, ...props }, ref) => {
-  const { numberFieldProps } = useNumberFieldContext();
+  const {
+    numberFieldProps: { labelProps },
+    labelPosition,
+  } = useNumberFieldContext();
 
   return (
     <label
       ref={ref}
       // TODO: 是否有更优雅的方式
-      {...numberFieldProps.labelProps}
+      {...labelProps}
       // {...props}
       className={cn(
-        "",
+        labelPosition === "left" ? "flex items-center justify-center" : "",
         // "h-full w-full bg-m absolute left-0 top-0 z-10 flex items-center justify-center rounded-md",
         className,
       )}
