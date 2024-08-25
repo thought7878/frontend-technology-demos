@@ -93,13 +93,16 @@ export default function Page() {
         // onChange={console.log}
         // onBlur={() => {}}
       >
-        <NumberFieldDecrement>
-          <ChevronDownIcon className="h-4 w-4" />
-        </NumberFieldDecrement>
-        <NumberFieldInput ref={ref} />
-        <NumberFieldIncrement>
-          <ChevronUpIcon className="h-4 w-4" />
-        </NumberFieldIncrement>
+        <NumberFieldLabel>默认样式/outside: </NumberFieldLabel>
+        <NumberFieldContent>
+          <NumberFieldDecrement>
+            <ChevronDownIcon className="h-4 w-4" />
+          </NumberFieldDecrement>
+          <NumberFieldInput ref={ref} />
+          <NumberFieldIncrement>
+            <ChevronUpIcon className="h-4 w-4" />
+          </NumberFieldIncrement>
+        </NumberFieldContent>
       </NumberField>
 
       <NumberField
@@ -108,13 +111,16 @@ export default function Page() {
         className="mb-8 h-[80px]"
         btnPosition="outside"
       >
-        <NumberFieldDecrement className="border border-input bg-green-500 hover:bg-accent hover:text-accent-foreground">
-          <ChevronDownIcon className="h-4 w-4" />
-        </NumberFieldDecrement>
-        <NumberFieldInput className="w-[100px] text-blue-500" />
-        <NumberFieldIncrement className="bg-blue-500">
-          <ChevronUpIcon className="h-4 w-4" />
-        </NumberFieldIncrement>
+        <NumberFieldLabel>自定义每个组件的样式: </NumberFieldLabel>
+        <NumberFieldContent>
+          <NumberFieldDecrement className="border border-input bg-green-500 hover:bg-accent hover:text-accent-foreground">
+            <ChevronDownIcon className="h-4 w-4" />
+          </NumberFieldDecrement>
+          <NumberFieldInput className="w-[100px] text-blue-500" />
+          <NumberFieldIncrement className="bg-blue-500">
+            <ChevronUpIcon className="h-4 w-4" />
+          </NumberFieldIncrement>
+        </NumberFieldContent>
       </NumberField>
 
       <NumberField
@@ -122,13 +128,18 @@ export default function Page() {
         label="bug:设置input宽度小于容器，容器高度大于input，btn定位错误。貌似解决不了！"
         className="h-[80px]"
       >
-        <NumberFieldDecrement className="border border-input bg-background hover:bg-accent hover:text-accent-foreground">
-          <ChevronDownIcon className="h-4 w-4" />
-        </NumberFieldDecrement>
-        <NumberFieldInput className="w-[100px] text-blue-500" />
-        <NumberFieldIncrement className="bg-blue-500">
-          <ChevronUpIcon className="h-4 w-4" />
-        </NumberFieldIncrement>
+        <NumberFieldLabel>
+          bug:设置input宽度小于容器，容器高度大于input，btn定位错误。貌似解决不了！:
+        </NumberFieldLabel>
+        <NumberFieldContent>
+          <NumberFieldDecrement className="border border-input bg-background hover:bg-accent hover:text-accent-foreground">
+            <ChevronDownIcon className="h-4 w-4" />
+          </NumberFieldDecrement>
+          <NumberFieldInput className="w-[100px] text-blue-500" />
+          <NumberFieldIncrement className="bg-blue-500">
+            <ChevronUpIcon className="h-4 w-4" />
+          </NumberFieldIncrement>
+        </NumberFieldContent>
       </NumberField>
     </div>
   );

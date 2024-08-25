@@ -58,6 +58,7 @@ type NumberFieldProps = React.PropsWithChildren<
     name?: string;
     className?: string;
     btnPosition?: "inside" | "outside";
+    labelPosition?: "left" | "top";
   } & Partial<Pick<NumberFieldStateOptions, "locale">>
 >;
 // & ControllerRenderProps;
@@ -98,7 +99,7 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
           ref={ref}
           {...numberFieldProps.groupProps}
           className={cn(
-            "flex items-center gap-1",
+            // "flex items-center gap-1",
             // "relative flex items-center gap-1 rounded-md",
             className,
           )}
@@ -119,7 +120,7 @@ const NumberFieldContent = React.forwardRef<
   NumberFieldContentProps
 >(({ className, children, ...props }, ref) => {
   return (
-    <div ref={ref} className={cn("relative", className)} {...props}>
+    <div ref={ref} className={cn("relative flex gap-1", className)} {...props}>
       {children}
     </div>
   );
