@@ -89,14 +89,14 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
         value={{ numberFieldProps, inputRef, btnPosition }}
       >
         {/* TODO: 应该单独抽离 NumberFieldLabel 组件 */}
-        {/* {props.label && (
+        {props.label && (
           <label {...numberFieldProps.labelProps}>{props.label}</label>
-        )} */}
+        )}
         <div
           ref={ref}
           {...numberFieldProps.groupProps}
           className={cn(
-            "flex items-center",
+            "flex items-center gap-1",
             // "relative flex items-center gap-1 rounded-md",
             className,
           )}
@@ -115,13 +115,11 @@ type NumberFieldContentProps = React.HTMLAttributes<HTMLDivElement>;
 const NumberFieldContent = React.forwardRef<
   HTMLDivElement,
   NumberFieldContentProps
->(({ className, ...props }, ref) => {
+>(({ className, children, ...props }, ref) => {
   return (
-    <div
-      ref={ref}
-      className={cn("relative flex items-center", className)}
-      {...props}
-    ></div>
+    <div ref={ref} className={cn("relative", className)} {...props}>
+      {children}
+    </div>
   );
 });
 NumberFieldContent.displayName = "NumberFieldContent";
@@ -130,7 +128,7 @@ type NumberFieldLabelProps = React.LabelHTMLAttributes<HTMLLabelElement>;
 const NumberFieldLabel = React.forwardRef<
   HTMLLabelElement,
   NumberFieldLabelProps
->(({ className, ...props }, ref) => {
+>(({ className, children, ...props }, ref) => {
   const { numberFieldProps } = useNumberFieldContext();
 
   return (
@@ -138,13 +136,15 @@ const NumberFieldLabel = React.forwardRef<
       ref={ref}
       // TODO: 是否有更优雅的方式
       {...numberFieldProps.labelProps}
-      {...props}
+      // {...props}
       className={cn(
         "",
         // "h-full w-full bg-m absolute left-0 top-0 z-10 flex items-center justify-center rounded-md",
         className,
       )}
-    />
+    >
+      {children}
+    </label>
   );
 });
 NumberFieldLabel.displayName = "NumberFieldLabel";
