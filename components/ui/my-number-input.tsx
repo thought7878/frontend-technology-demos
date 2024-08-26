@@ -86,7 +86,7 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
 
     const state = useNumberFieldState({ ...props, locale });
 
-    // TODO: Incompatible with react-aria inputRef是否可以有更好的处理方式
+    // TODO: Incompatible with react-aria
     const inputRef = React.useRef<HTMLInputElement>(null);
     const numberFieldProps = useNumberField(props, state, inputRef);
 
@@ -119,18 +119,23 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
 );
 NumberField.displayName = "NumberField";
 
-type NumberFieldContentProps = React.HTMLAttributes<HTMLDivElement>;
-const NumberFieldContent = React.forwardRef<
+type NumberFieldGroupProps = React.HTMLAttributes<HTMLDivElement>;
+const NumberFieldGroup = React.forwardRef<
   HTMLDivElement,
-  NumberFieldContentProps
+  NumberFieldGroupProps
 >(({ className, children, ...props }, ref) => {
+  const { numberFieldProps: groupProps } = useNumberFieldContext();
   return (
-    <div ref={ref} className={cn("relative flex gap-1", className)} {...props}>
+    <div
+      ref={ref}
+      className={cn("relative flex gap-1", className)}
+      {...groupProps}
+    >
       {children}
     </div>
   );
 });
-NumberFieldContent.displayName = "NumberFieldContent";
+NumberFieldGroup.displayName = "NumberFieldGroup";
 
 type NumberFieldLabelProps = React.LabelHTMLAttributes<HTMLLabelElement>;
 const NumberFieldLabel = React.forwardRef<
@@ -253,7 +258,7 @@ NumberFieldInput.displayName = "NumberFieldInput";
 
 export {
   NumberField,
-  NumberFieldContent,
+  NumberFieldGroup,
   NumberFieldLabel,
   NumberFieldDecrement,
   NumberFieldIncrement,
@@ -262,7 +267,7 @@ export {
 
 export type {
   NumberFieldProps,
-  NumberFieldContentProps,
+  NumberFieldGroupProps,
   NumberFieldLabelProps,
   NumberFieldDecrementProps,
   NumberFieldIncrementProps,

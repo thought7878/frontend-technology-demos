@@ -14,7 +14,7 @@ import {
 // } from "@/components/ui/my-number-input_git";
 import {
   NumberField,
-  NumberFieldContent,
+  NumberFieldGroup,
   NumberFieldDecrement,
   NumberFieldIncrement,
   NumberFieldInput,
@@ -67,7 +67,7 @@ export default function Page() {
         // minValue={0}
       >
         <NumberFieldLabel className="text-blue-500">Count: </NumberFieldLabel>
-        <NumberFieldContent className="">
+        <NumberFieldGroup className="">
           <NumberFieldIncrement ref={buttonRef}>
             <ChevronUpIcon className="h-4 w-4" />
           </NumberFieldIncrement>
@@ -76,7 +76,7 @@ export default function Page() {
           <NumberFieldDecrement>
             <ChevronDownIcon className="h-4 w-4" />
           </NumberFieldDecrement>
-        </NumberFieldContent>
+        </NumberFieldGroup>
       </NumberField>
       {/* 
       <NumberField
@@ -96,7 +96,7 @@ export default function Page() {
         // onBlur={() => {}}
       >
         <NumberFieldLabel>默认样式/outside: </NumberFieldLabel>
-        <NumberFieldContent>
+        <NumberFieldGroup>
           <NumberFieldDecrement>
             <ChevronDownIcon className="h-4 w-4" />
           </NumberFieldDecrement>
@@ -104,7 +104,7 @@ export default function Page() {
           <NumberFieldIncrement>
             <ChevronUpIcon className="h-4 w-4" />
           </NumberFieldIncrement>
-        </NumberFieldContent>
+        </NumberFieldGroup>
       </NumberField>
 
       <NumberField
@@ -114,7 +114,7 @@ export default function Page() {
         btnPosition="outside"
       >
         <NumberFieldLabel>自定义每个组件的样式: </NumberFieldLabel>
-        <NumberFieldContent>
+        <NumberFieldGroup>
           <NumberFieldDecrement className="border border-input bg-green-500 hover:bg-accent hover:text-accent-foreground">
             <ChevronDownIcon className="h-4 w-4" />
           </NumberFieldDecrement>
@@ -122,7 +122,7 @@ export default function Page() {
           <NumberFieldIncrement className="bg-blue-500">
             <ChevronUpIcon className="h-4 w-4" />
           </NumberFieldIncrement>
-        </NumberFieldContent>
+        </NumberFieldGroup>
       </NumberField>
 
       <NumberField
@@ -133,7 +133,7 @@ export default function Page() {
         <NumberFieldLabel>
           bug:设置input宽度小于容器，容器高度大于input，btn定位错误。貌似解决不了！:
         </NumberFieldLabel>
-        <NumberFieldContent>
+        <NumberFieldGroup>
           <NumberFieldDecrement className="border border-input bg-background hover:bg-accent hover:text-accent-foreground">
             <ChevronDownIcon className="h-4 w-4" />
           </NumberFieldDecrement>
@@ -141,7 +141,7 @@ export default function Page() {
           <NumberFieldIncrement className="bg-blue-500">
             <ChevronUpIcon className="h-4 w-4" />
           </NumberFieldIncrement>
-        </NumberFieldContent>
+        </NumberFieldGroup>
       </NumberField> */}
     </div>
   );
