@@ -124,7 +124,9 @@ const NumberFieldGroup = React.forwardRef<
   HTMLDivElement,
   NumberFieldGroupProps
 >(({ className, children, ...props }, ref) => {
-  const { numberFieldProps: groupProps } = useNumberFieldContext();
+  const {
+    numberFieldProps: { groupProps },
+  } = useNumberFieldContext();
   return (
     <div
       ref={ref}
@@ -150,12 +152,11 @@ const NumberFieldLabel = React.forwardRef<
   return (
     <label
       ref={ref}
-      // TODO: 是否有更优雅的方式
+      // TODO: 是否需要props，包括其他组件的props
       {...labelProps}
       // {...props}
       className={cn(
         labelPosition === "left" ? "flex items-center justify-center" : "",
-        // "h-full w-full bg-m absolute left-0 top-0 z-10 flex items-center justify-center rounded-md",
         className,
       )}
     >
