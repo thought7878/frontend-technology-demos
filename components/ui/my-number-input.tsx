@@ -3,8 +3,10 @@
 import { Input, InputProps } from "@/components/ui/input";
 import * as React from "react";
 import {
+  AriaButtonOptions,
   AriaNumberFieldProps,
   type NumberFieldAria,
+  useButton,
   useLocale,
   useNumberField,
 } from "react-aria";
@@ -14,7 +16,7 @@ import {
   useNumberFieldState,
 } from "react-stately";
 // import { Button, ButtonProps } from "@/components/ui/button";
-import Button, { ButtonProps } from "@/components/ui/button-aria";
+// import Button, { ButtonProps } from "@/components/ui/button-aria";
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { ControllerRenderProps } from "react-hook-form";
@@ -65,7 +67,6 @@ type NumberFieldProps = React.PropsWithChildren<
     labelPosition?: "left" | "top";
   } & Partial<Pick<NumberFieldStateOptions, "locale">>
 >;
-// & ControllerRenderProps;
 const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
   (
     {
@@ -74,18 +75,18 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
       btnPosition = "inside",
       labelPosition = "left",
       locale: customLocale,
-      // label = "for bug",
       ...props
     },
     ref,
   ) => {
     const hookLocale = useLocale().locale;
     const locale = customLocale || hookLocale;
+    // TODO: If label is empty, numberFieldProps.labelProps is empty. Because of using NumberFieldLabel, so props.label need default value
     props.label = props.label || props.name || "label";
 
     const state = useNumberFieldState({ ...props, locale });
 
-    // TODO: inputRef是否可以有更好的处理方式
+    // TODO: Incompatible with react-aria inputRef是否可以有更好的处理方式
     const inputRef = React.useRef<HTMLInputElement>(null);
     const numberFieldProps = useNumberField(props, state, inputRef);
 
@@ -164,12 +165,15 @@ const NumberFieldIncrement = React.forwardRef<
   HTMLButtonElement,
   NumberFieldIncrementProps
 >(({ className, ...props }, ref) => {
-  const { numberFieldProps, btnPosition } = useNumberFieldContext();
+  const {
+    numberFieldProps: { incrementButtonProps },
+    btnPosition,
+  } = useNumberFieldContext();
 
   return (
     <Button
       // TODO: 是否有更优雅的方式
-      {...{ ...numberFieldProps.incrementButtonProps, ...props }}
+      {...{ ...incrementButtonProps, ...props }}
       className={cn(
         "z-10 rounded-md bg-primary text-primary-foreground transition-all enabled:hover:bg-primary/60 disabled:cursor-not-allowed disabled:opacity-50",
         btnPosition === "outside"
@@ -191,12 +195,15 @@ const NumberFieldDecrement = React.forwardRef<
   HTMLButtonElement,
   NumberFieldDecrementProps
 >(({ className, ...props }, ref) => {
-  const { numberFieldProps, btnPosition } = useNumberFieldContext();
+  const {
+    numberFieldProps: { decrementButtonProps },
+    btnPosition,
+  } = useNumberFieldContext();
 
   return (
     <Button
       // TODO: 是否有更优雅的方式
-      {...{ ...numberFieldProps.decrementButtonProps, ...props }}
+      {...{ ...decrementButtonProps, ...props }}
       className={cn(
         "z-10 rounded-md bg-primary text-primary-foreground transition-all enabled:hover:bg-primary/60 disabled:cursor-not-allowed disabled:opacity-50",
         btnPosition === "outside"
@@ -217,14 +224,17 @@ const NumberFieldInput = React.forwardRef<
   HTMLInputElement,
   NumberFieldInputProps
 >(({ className, ...props }, ref) => {
-  const { numberFieldProps, inputRef } = useNumberFieldContext();
+  const {
+    numberFieldProps: { inputProps },
+    inputRef,
+  } = useNumberFieldContext();
 
   // TODO: inputRef和ref是否有更好的处理方式
   React.useEffect(() => {
     if (ref && "current" in ref && inputRef?.current) {
       ref.current = inputRef?.current;
     }
-  }, [inputRef]);
+  }, [inputRef, ref]);
   // console.log("numberFieldProps.inputProps:", numberFieldProps.inputProps);
 
   return (
@@ -235,7 +245,7 @@ const NumberFieldInput = React.forwardRef<
       // TODO: 后面的类是否有必要
       className={`${className} [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none`}
       // TODO: 是否有更优雅的方式
-      {...{ ...numberFieldProps.inputProps, ...props }}
+      {...{ ...inputProps, ...props }}
     />
   );
 });
@@ -258,3 +268,28 @@ export type {
   NumberFieldIncrementProps,
   NumberFieldInputProps,
 };
+
+type ButtonProps = AriaButtonOptions<React.ElementType> & {
+  children?: React.ReactNode;
+  className?: string;
+  // ref?: React.MutableRefObject<HTMLButtonElement | null>;
+  ref?: React.RefObject<HTMLButtonElement | null>;
+};
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, ...props }, ref) => {
+    let { buttonProps } = useButton(
+      props,
+      // TODO: 类型没搞清楚
+      ref as React.RefObject<HTMLButtonElement | null>,
+    );
+
+    return (
+      <button {...buttonProps} ref={ref} className={className}>
+        {props.children}
+      </button>
+    );
+  },
+);
+
+Button.displayName = "Button";

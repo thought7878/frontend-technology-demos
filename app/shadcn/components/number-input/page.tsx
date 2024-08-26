@@ -78,7 +78,7 @@ export default function Page() {
           </NumberFieldDecrement>
         </NumberFieldContent>
       </NumberField>
-
+      {/* 
       <NumberField
         defaultValue={8}
         label="默认样式/outside"
@@ -142,7 +142,7 @@ export default function Page() {
             <ChevronUpIcon className="h-4 w-4" />
           </NumberFieldIncrement>
         </NumberFieldContent>
-      </NumberField>
+      </NumberField> */}
     </div>
   );
 
