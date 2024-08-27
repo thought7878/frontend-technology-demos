@@ -217,8 +217,7 @@ const NumberFieldDecrement = React.forwardRef<
           : "absolute bottom-0 right-0 flex h-5 w-5 items-center justify-center rounded-t-none p-0 focus-visible:outline-none",
         className,
       )}
-      // TODO: 类型没搞清楚
-      ref={ref as React.MutableRefObject<HTMLButtonElement | null>}
+      ref={ref}
     ></Button>
   );
 });
@@ -244,12 +243,16 @@ const NumberFieldInput = React.forwardRef<
   // console.log("numberFieldProps.inputProps:", numberFieldProps.inputProps);
 
   return (
-    <Input
+    <input
       // TODO: 类型没搞清楚
       ref={inputRef as React.RefObject<HTMLInputElement>}
       type="number"
-      // TODO: 后面的类是否有必要
-      className={`${className} [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none`}
+      className={cn(
+        "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+        // TODO: 后面的类是否有必要
+        // `${className} [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none`
+        className,
+      )}
       // TODO: 是否有更优雅的方式
       {...{ ...inputProps, ...props }}
     />

@@ -46,6 +46,7 @@ export default function Page() {
       {/* <NumberFieldLabel>btnPosition: inside</NumberFieldLabel> */}
       <NumberField
         defaultValue={18}
+        isWheelDisabled
         // label="btnPosition: inside"
         // labelPosition="top"
         // btnPosition="inside"
@@ -56,11 +57,11 @@ export default function Page() {
         // step={8} //bug：defaultValue={18},显示16
         // isDisabled
         // locale="zh-CN"
-        // formatOptions={{
-        //   // https://react-spectrum.adobe.com/react-aria/useNumberField.html#currency-values
-        //   style: "currency",
-        //   currency: "CNY",
-        // }}
+        formatOptions={{
+          // https://react-spectrum.adobe.com/react-aria/useNumberField.html#currency-values
+          style: "currency",
+          currency: "CNY",
+        }}
         // decrementAriaLabel="减少 label"
         // isWheelDisabled
         // maxValue={10}
