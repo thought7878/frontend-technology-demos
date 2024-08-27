@@ -40,7 +40,7 @@ const numberFieldVariants = cva("", {
 
 interface NumberFieldContextValue {
   numberFieldProps: NumberFieldAria;
-  inputRef?: React.RefObject<HTMLInputElement | null>;
+  inputRef?: React.RefObject<HTMLInputElement>;
   btnPosition?: "inside" | "outside";
   labelPosition?: "left" | "top";
 }
@@ -119,11 +119,14 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
 );
 NumberField.displayName = "NumberField";
 
-type NumberFieldGroupProps = React.HTMLAttributes<HTMLDivElement>;
+type NumberFieldGroupProps = {
+  className?: string;
+  children: React.ReactNode;
+};
 const NumberFieldGroup = React.forwardRef<
   HTMLDivElement,
   NumberFieldGroupProps
->(({ className, children, ...props }, ref) => {
+>(({ className, children }, ref) => {
   const {
     numberFieldProps: { groupProps },
   } = useNumberFieldContext();
@@ -139,11 +142,14 @@ const NumberFieldGroup = React.forwardRef<
 });
 NumberFieldGroup.displayName = "NumberFieldGroup";
 
-type NumberFieldLabelProps = React.LabelHTMLAttributes<HTMLLabelElement>;
+type NumberFieldLabelProps = {
+  className?: string;
+  children: React.ReactNode;
+};
 const NumberFieldLabel = React.forwardRef<
   HTMLLabelElement,
   NumberFieldLabelProps
->(({ className, children, ...props }, ref) => {
+>(({ className, children }, ref) => {
   const {
     numberFieldProps: { labelProps },
     labelPosition,
@@ -152,9 +158,7 @@ const NumberFieldLabel = React.forwardRef<
   return (
     <label
       ref={ref}
-      // TODO: 是否需要props，包括其他组件的props
       {...labelProps}
-      // {...props}
       className={cn(
         labelPosition === "left" ? "flex items-center justify-center" : "",
         className,
@@ -166,11 +170,15 @@ const NumberFieldLabel = React.forwardRef<
 });
 NumberFieldLabel.displayName = "NumberFieldLabel";
 
-type NumberFieldIncrementProps = ButtonProps;
+// type NumberFieldIncrementProps = ButtonProps;
+type NumberFieldIncrementProps = {
+  children: React.ReactNode;
+  className?: string;
+};
 const NumberFieldIncrement = React.forwardRef<
   HTMLButtonElement,
   NumberFieldIncrementProps
->(({ className, ...props }, ref) => {
+>(({ className, children }, ref) => {
   const {
     numberFieldProps: { incrementButtonProps },
     btnPosition,
@@ -178,8 +186,7 @@ const NumberFieldIncrement = React.forwardRef<
 
   return (
     <Button
-      // TODO: 是否有更优雅的方式
-      {...{ ...incrementButtonProps, ...props }}
+      {...incrementButtonProps}
       className={cn(
         "z-10 rounded-md bg-primary text-primary-foreground transition-all enabled:hover:bg-primary/60 disabled:cursor-not-allowed disabled:opacity-50",
         btnPosition === "outside"
@@ -191,16 +198,22 @@ const NumberFieldIncrement = React.forwardRef<
       // ref={ref as React.MutableRefObject<HTMLButtonElement | null>}
       ref={ref}
       // ref={ref satisfies React.MutableRefObject<HTMLButtonElement | null>}
-    ></Button>
+    >
+      {children}
+    </Button>
   );
 });
 NumberFieldIncrement.displayName = "NumberFieldIncrement";
 
-type NumberFieldDecrementProps = ButtonProps;
+// type NumberFieldDecrementProps = ButtonProps;
+type NumberFieldDecrementProps = {
+  children: React.ReactNode;
+  className?: string;
+};
 const NumberFieldDecrement = React.forwardRef<
   HTMLButtonElement,
   NumberFieldDecrementProps
->(({ className, ...props }, ref) => {
+>(({ className, children }, ref) => {
   const {
     numberFieldProps: { decrementButtonProps },
     btnPosition,
@@ -208,8 +221,7 @@ const NumberFieldDecrement = React.forwardRef<
 
   return (
     <Button
-      // TODO: 是否有更优雅的方式
-      {...{ ...decrementButtonProps, ...props }}
+      {...decrementButtonProps}
       className={cn(
         "z-10 rounded-md bg-primary text-primary-foreground transition-all enabled:hover:bg-primary/60 disabled:cursor-not-allowed disabled:opacity-50",
         btnPosition === "outside"
@@ -218,17 +230,21 @@ const NumberFieldDecrement = React.forwardRef<
         className,
       )}
       ref={ref}
-    ></Button>
+    >
+      {children}
+    </Button>
   );
 });
 NumberFieldDecrement.displayName = "NumberFieldDecrement";
 
-type NumberFieldInputProps = InputProps;
+// TODO: 回头升级，去掉 react-aria，实现自己的
+// type NumberFieldInputProps = InputProps;
 // type NumberFieldInputProps = Omit<InputProps, "onChange">;
+type NumberFieldInputProps = { className?: string };
 const NumberFieldInput = React.forwardRef<
   HTMLInputElement,
   NumberFieldInputProps
->(({ className, ...props }, ref) => {
+>(({ className }, ref) => {
   const {
     numberFieldProps: { inputProps },
     inputRef,
@@ -244,8 +260,7 @@ const NumberFieldInput = React.forwardRef<
 
   return (
     <input
-      // TODO: 类型没搞清楚
-      ref={inputRef as React.RefObject<HTMLInputElement>}
+      ref={inputRef}
       type="number"
       className={cn(
         "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
@@ -253,8 +268,7 @@ const NumberFieldInput = React.forwardRef<
         // `${className} [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none`
         className,
       )}
-      // TODO: 是否有更优雅的方式
-      {...{ ...inputProps, ...props }}
+      {...inputProps}
     />
   );
 });
@@ -279,7 +293,7 @@ export type {
 };
 
 type ButtonProps = AriaButtonOptions<React.ElementType> & {
-  children?: React.ReactNode;
+  children: React.ReactNode;
   className?: string;
   // ref?: React.MutableRefObject<HTMLButtonElement | null>;
   ref?: React.RefObject<HTMLButtonElement | null>;
@@ -289,7 +303,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, ...props }, ref) => {
     let { buttonProps } = useButton(
       props,
-      // TODO: 类型没搞清楚
       ref as React.RefObject<HTMLButtonElement | null>,
     );
 

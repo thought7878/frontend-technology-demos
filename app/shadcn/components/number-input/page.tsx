@@ -45,7 +45,8 @@ export default function Page() {
     <div>
       {/* <NumberFieldLabel>btnPosition: inside</NumberFieldLabel> */}
       <NumberField
-        defaultValue={18}
+        // defaultValue={18}
+        placeholder="*number input*"
         isWheelDisabled
         // label="btnPosition: inside"
         // labelPosition="top"
