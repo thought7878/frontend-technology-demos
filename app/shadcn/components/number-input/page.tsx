@@ -1,4 +1,6 @@
 "use client";
+import { create } from "@/app/actions/input";
+import { Button } from "@/components/ui/button";
 import {
   FormControl,
   FormField,
@@ -6,6 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 // import {
 //   NumberField,
 //   NumberFieldDecrement,
@@ -43,8 +46,32 @@ export default function Page() {
 
   return (
     <div>
-      {/* <NumberFieldLabel>btnPosition: inside</NumberFieldLabel> */}
-      <NumberField
+      <form
+        action={create}
+        // onSubmit={(e) => {
+        //   e.preventDefault();
+        //   console.log(e.currentTarget);
+        // }}
+      >
+        <Input type="text" name="username" />
+        <Input type="password" name="password" />
+
+        <NumberField name="amount" errorMessage="error Message">
+          <NumberFieldLabel className="text-blue-500">Count: </NumberFieldLabel>
+          <NumberFieldGroup className="">
+            <NumberFieldIncrement>
+              <ChevronUpIcon className="h-4 w-4" />
+            </NumberFieldIncrement>
+            <NumberFieldInput />
+            <NumberFieldDecrement>
+              <ChevronDownIcon className="h-4 w-4" />
+            </NumberFieldDecrement>
+          </NumberFieldGroup>
+        </NumberField>
+        <Button type="submit">submit</Button>
+      </form>
+
+      {/* <NumberField
         // defaultValue={18}
         placeholder="*number input*"
         isWheelDisabled
@@ -73,13 +100,12 @@ export default function Page() {
           <NumberFieldIncrement ref={buttonRef}>
             <ChevronUpIcon className="h-4 w-4" />
           </NumberFieldIncrement>
-          {/* <NumberFieldIncrement className="absolute right-0 top-0 rounded-b-none p-[2.5px] hover:opacity-60" /> */}
           <NumberFieldInput />
           <NumberFieldDecrement>
             <ChevronDownIcon className="h-4 w-4" />
           </NumberFieldDecrement>
         </NumberFieldGroup>
-      </NumberField>
+      </NumberField> */}
       {/* 
       <NumberField
         defaultValue={8}

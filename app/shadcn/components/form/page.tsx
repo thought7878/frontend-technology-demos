@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import {
   NumberField,
   NumberFieldDecrement,
+  NumberFieldGroup,
   NumberFieldIncrement,
   NumberFieldInput,
 } from "@/components/ui/my-number-input";
@@ -81,23 +82,25 @@ export default function ProfileForm() {
                   onChange={onChange}
                   value={value}
                   // TODO: name与NumberFieldInput有矛盾
-                  name={"test"}
+                  name="test"
                 >
-                  <NumberFieldDecrement>
-                    <ChevronDownIcon className="h-4 w-4" />
-                  </NumberFieldDecrement>
-                  <NumberFieldInput
+                  <NumberFieldGroup>
+                    <NumberFieldDecrement>
+                      <ChevronDownIcon className="h-4 w-4" />
+                    </NumberFieldDecrement>
+                    <NumberFieldInput
                     // TODO: 这里的name / onChange无用，在 NumberField 配置onChange
                     // name={"name"}
                     // value={value}
-                    onChange={(v) => {
-                      // onChange(v);
-                      console.log("NumberFieldInput onChange:", v);
-                    }}
-                  />
-                  <NumberFieldIncrement>
-                    <ChevronUpIcon className="h-4 w-4" />
-                  </NumberFieldIncrement>
+                    // onChange={(v) => {
+                    //   // onChange(v);
+                    //   console.log("NumberFieldInput onChange:", v);
+                    // }}
+                    />
+                    <NumberFieldIncrement>
+                      <ChevronUpIcon className="h-4 w-4" />
+                    </NumberFieldIncrement>
+                  </NumberFieldGroup>
                 </NumberField>
               </FormControl>
               <FormDescription>This is count.</FormDescription>
