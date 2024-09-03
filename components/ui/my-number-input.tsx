@@ -90,8 +90,8 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
     const inputRef = React.useRef<HTMLInputElement>(null);
     const numberFieldProps = useNumberField(props, state, inputRef);
 
-    // TODO: 应该是bug，可以提交PR。react-aria，没有输入框的name属性
-    // numberFieldProps.inputProps.name = props.name;
+    // TODO: react-aria，没有输入框的name属性。应该是bug，可以提交PR。屎山代码，不好改。
+    numberFieldProps.inputProps.name = props.name;
 
     return (
       <NumberFieldContext.Provider

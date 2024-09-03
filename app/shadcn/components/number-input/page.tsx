@@ -35,23 +35,35 @@ export default function Page() {
   let buttonRef = useRef<HTMLButtonElement>(null);
 
   // console.log("function input ref", ref);
-  console.log("function buttonRef", buttonRef);
+  // console.log("function buttonRef", buttonRef);
 
   useEffect(() => {
     // ref.current?.focus();
     // console.log("useEffect input ref", ref);
-    console.log("useEffect buttonRef", buttonRef);
-    console.log(buttonRef.current?.className);
+    // console.log("useEffect buttonRef", buttonRef);
+    // console.log(buttonRef.current?.className);
   }, [ref]);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    // 获取表单元素的值
+    const formData = new FormData(event.currentTarget);
+
+    const username = formData.get("username");
+    const password = formData.get("password");
+    const amount = formData.get("amount");
+
+    console.log("username:", username);
+    console.log("password:", password);
+    console.log("amount:", amount);
+  };
 
   return (
     <div>
       <form
-        action={create}
-        // onSubmit={(e) => {
-        //   e.preventDefault();
-        //   console.log(e.currentTarget);
-        // }}
+        // action={create}
+        onSubmit={handleSubmit}
       >
         <Input type="text" name="username" />
         <Input type="password" name="password" />
