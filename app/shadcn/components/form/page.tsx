@@ -81,7 +81,6 @@ export default function ProfileForm() {
                   // btnPosition="outside"
                   onChange={onChange}
                   value={value}
-                  // TODO: name与NumberFieldInput有矛盾
                   name="test"
                 >
                   <NumberFieldGroup>

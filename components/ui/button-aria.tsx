@@ -14,7 +14,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     // let buttonRef = React.useRef(null);
     let { buttonProps } = useButton(
       props,
-      // TODO: 类型没搞清楚
       ref as React.RefObject<HTMLButtonElement | null>,
     );
 
