@@ -21,7 +21,7 @@ export default function Page() {
     <Provider theme={defaultTheme}>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Name:</label>
-        <input type="text" id="name" name="name" />
+        <input type="text" id="name" name="name" required />
 
         <label htmlFor="email">Email:</label>
         <input type="email" id="email" name="email" />
@@ -32,8 +32,14 @@ export default function Page() {
           // onChange={(value) => console.log(value)}
           name="width"
           label="Width"
-          defaultValue={1024}
-          minValue={0}
+          validationBehavior="native"
+          isRequired
+          // errorMessage的priority比validate的高
+          // errorMessage="Required errorMessage"
+          validate={(value) => (value < 0 ? "value must be positive" : true)}
+          // validationState='valid'
+          // defaultValue={1024}
+          // minValue={0}
         />
         <input type="submit" value="submit" />
       </form>
