@@ -20,28 +20,33 @@ export default function Page() {
   return (
     <Provider theme={defaultTheme}>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name:</label>
-        <input type="text" id="name" name="name" required />
-
-        <label htmlFor="email">Email:</label>
-        <input type="email" id="email" name="email" />
-
+        <div>
+          <label htmlFor="name">Name:</label>
+          <input type="text" id="name" name="name" />
+        </div>
+        <div>
+          <label htmlFor="email">Email:</label>
+          <input type="email" id="email" name="email" />
+        </div>
         <NumberField
           // TODO: If not use Provider, Bug---TypeError: Cannot read properties of null (reading 'scale')
           // TODO: BUG, 键盘修改值，不会触发 onChange ，直到失去焦点时。貌似不是Bug，https://react-spectrum.adobe.com/react-spectrum/NumberField.html#events
           // onChange={(value) => console.log(value)}
           name="width"
           label="Width"
+          labelPosition="side"
           validationBehavior="native"
           isRequired
           // errorMessage的priority比validate的高
           // errorMessage="Required errorMessage"
-          validate={(value) => (value < 0 ? "value must be positive" : true)}
+          // validate={(value) => (value < 0 ? "value must be positive" : true)}
           // validationState='valid'
           // defaultValue={1024}
           // minValue={0}
         />
-        <input type="submit" value="submit" />
+        <div>
+          <input type="submit" value="submit" />
+        </div>
       </form>
     </Provider>
   );
