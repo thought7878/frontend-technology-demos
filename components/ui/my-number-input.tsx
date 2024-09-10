@@ -1,6 +1,5 @@
 "use client";
 
-import { Input, InputProps } from "@/components/ui/input";
 import * as React from "react";
 import {
   AriaButtonOptions,
@@ -11,38 +10,30 @@ import {
   useNumberField,
 } from "react-aria";
 import {
-  type NumberFieldState,
+  NumberFieldState,
   NumberFieldStateOptions,
   useNumberFieldState,
 } from "react-stately";
-// import { Button, ButtonProps } from "@/components/ui/button";
-// import Button, { ButtonProps } from "@/components/ui/button-aria";
+// import {ValidationResult} from '@react-types/shared';
+
 import { cn } from "@/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
-import { ControllerRenderProps } from "react-hook-form";
-/* 
-const numberFieldVariants = cva("", {
-  variants: {
-    variant: {
-      inside: "",
-      outside: "",
-    },
-    size: {
-      default: "",
-    },
-  },
-  defaultVariants: {
-    variant: "inside",
-    size: "default",
-  },
-});
- */
+
+// TODO: need to be fixed
+export interface ValidationResult {
+  /** Whether the input value is invalid. */
+  isInvalid: boolean;
+  /** The current error messages for the input if it is invalid, otherwise an empty array. */
+  validationErrors: string[];
+  /** The native validation details for the input. */
+  validationDetails: ValidityState;
+}
 
 interface NumberFieldContextValue {
   numberFieldProps: NumberFieldAria;
   inputRef?: React.RefObject<HTMLInputElement>;
   btnPosition?: "inside" | "outside";
   labelPosition?: "left" | "top";
+  errorMessage?: React.ReactNode | ((v: ValidationResult) => React.ReactNode);
 }
 
 const NumberFieldContext = React.createContext<NumberFieldContextValue>(
@@ -59,6 +50,10 @@ const useNumberFieldContext = () => {
   return numberFieldContext;
 };
 
+type NumberFieldRef = Partial<HTMLDivElement> & {
+  state: NumberFieldState;
+  numberFieldProps: NumberFieldAria;
+};
 type NumberFieldProps = React.PropsWithChildren<
   Partial<AriaNumberFieldProps> & {
     name?: string;
@@ -67,14 +62,16 @@ type NumberFieldProps = React.PropsWithChildren<
     labelPosition?: "left" | "top";
   } & Partial<Pick<NumberFieldStateOptions, "locale">>
 >;
-const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
+const NumberField = React.forwardRef<NumberFieldRef, NumberFieldProps>(
   (
     {
       children,
       className,
       btnPosition = "inside",
-      labelPosition = "left",
+      labelPosition = "top",
       locale: customLocale,
+      errorMessage,
+      validationBehavior = "native",
       ...props
     },
     ref,
@@ -84,32 +81,59 @@ const NumberField = React.forwardRef<HTMLDivElement, NumberFieldProps>(
     // TODO: If label is empty, numberFieldProps.labelProps is empty. Because of using NumberFieldLabel, so props.label need default value
     props.label = props.label || props.name || "label";
 
-    const state = useNumberFieldState({ ...props, locale });
+    const state = useNumberFieldState({
+      ...props,
+      locale,
+      errorMessage,
+      validationBehavior,
+    });
 
     // TODO: Incompatible with react-aria
     const inputRef = React.useRef<HTMLInputElement>(null);
-    const numberFieldProps = useNumberField(props, state, inputRef);
+    const numberFieldProps = useNumberField(
+      { ...props, errorMessage, validationBehavior },
+      state,
+      inputRef,
+    );
 
-    // TODO: react-aria，没有输入框的name属性。应该是bug，可以提交PR。屎山代码，不好改。
+    // TODO: Incompatible with react-aria
     numberFieldProps.inputProps.name = props.name;
+
+    React.useImperativeHandle(ref, () => ({
+      state,
+      numberFieldProps,
+    }));
+
+    // TODO: 代码执行，debug不执行
+    console.log("执行了很多次:");
+    // console.log('state.realtimeValidation:', state.realtimeValidation);
+    // console.log('numberFieldProps.validationErrors888:', numberFieldProps);
+    // console.log(
+    //   'numberFieldProps.validationDetails:',
+    //   numberFieldProps.validationDetails
+    // );
 
     return (
       <NumberFieldContext.Provider
-        value={{ numberFieldProps, inputRef, btnPosition, labelPosition }}
+        value={{
+          numberFieldProps,
+          inputRef,
+          btnPosition,
+          labelPosition,
+          errorMessage,
+        }}
       >
-        {/* TODO: 应该单独抽离 NumberFieldLabel 组件 */}
-        {/* {label && (
-          <label {...numberFieldProps.labelProps}>{label}</label>
-        )} */}
         <div
-          ref={ref}
+          ref={ref as React.ForwardedRef<HTMLDivElement>}
           {...numberFieldProps.groupProps}
           className={cn(
-            labelPosition === "left" ? "flex items-center gap-1" : "",
+            "grid grid-cols-1 grid-rows-[auto_auto_auto] items-center gap-1",
+            // TODO: which is good ? 'grid grid-cols-1 grid-rows-[auto_auto_auto] gap-1 items-center',
+            labelPosition === "left"
+              ? "grid-cols-[auto_1fr] grid-rows-[1fr_auto]"
+              : "",
             className,
           )}
-          // TODO: 需要处理
-          // aria-label="number field"
         >
           {children}
         </div>
@@ -142,6 +166,99 @@ const NumberFieldGroup = React.forwardRef<
 });
 NumberFieldGroup.displayName = "NumberFieldGroup";
 
+type NumberFieldIncrementProps = {
+  className?: string;
+  children: React.ReactNode;
+};
+const NumberFieldIncrement = React.forwardRef<
+  HTMLButtonElement,
+  NumberFieldIncrementProps
+>(({ className, children }, ref) => {
+  const {
+    numberFieldProps: { incrementButtonProps },
+    btnPosition,
+  } = useNumberFieldContext();
+
+  return (
+    <Button
+      {...incrementButtonProps}
+      className={cn(
+        "z-10 rounded-md bg-slate-900 text-slate-50 transition-all enabled:hover:bg-slate-900/60 disabled:cursor-not-allowed disabled:opacity-50",
+        btnPosition === "outside"
+          ? "px-3 py-2"
+          : "absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-b-none p-0 focus-visible:outline-none",
+        className,
+      )}
+      ref={ref}
+    >
+      {children}
+    </Button>
+  );
+});
+NumberFieldIncrement.displayName = "NumberFieldIncrement";
+
+type NumberFieldDecrementProps = {
+  children: React.ReactNode;
+  className?: string;
+};
+const NumberFieldDecrement = React.forwardRef<
+  HTMLButtonElement,
+  NumberFieldDecrementProps
+>(({ className, children }, ref) => {
+  const {
+    numberFieldProps: { decrementButtonProps },
+    btnPosition,
+  } = useNumberFieldContext();
+
+  return (
+    <Button
+      {...decrementButtonProps}
+      className={cn(
+        "z-10 rounded-md bg-slate-900 text-slate-50 transition-all enabled:hover:bg-slate-900/60 disabled:cursor-not-allowed disabled:opacity-50",
+        btnPosition === "outside"
+          ? "px-3 py-2"
+          : "absolute bottom-0 right-0 flex h-5 w-5 items-center justify-center rounded-t-none p-0 focus-visible:outline-none",
+        className,
+      )}
+      ref={ref}
+    >
+      {children}
+    </Button>
+  );
+});
+NumberFieldDecrement.displayName = "NumberFieldDecrement";
+
+type NumberFieldInputProps = { className?: string };
+const NumberFieldInput = React.forwardRef<
+  HTMLInputElement,
+  NumberFieldInputProps
+>(({ className }, ref) => {
+  const {
+    numberFieldProps: { inputProps, isInvalid },
+    inputRef,
+  } = useNumberFieldContext();
+
+  React.useEffect(() => {
+    if (ref && "current" in ref && inputRef?.current) {
+      ref.current = inputRef?.current;
+    }
+  }, [inputRef, ref]);
+
+  return (
+    <input
+      ref={inputRef}
+      type="number"
+      className={cn(
+        "flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white transition-all file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+        isInvalid && "focus-visible:ring-red-500",
+        className,
+      )}
+      {...inputProps}
+    />
+  );
+});
+NumberFieldInput.displayName = "NumberFieldInput";
+
 type NumberFieldLabelProps = {
   className?: string;
   children: React.ReactNode;
@@ -170,132 +287,81 @@ const NumberFieldLabel = React.forwardRef<
 });
 NumberFieldLabel.displayName = "NumberFieldLabel";
 
-// type NumberFieldIncrementProps = ButtonProps;
-type NumberFieldIncrementProps = {
-  children: React.ReactNode;
+type NumberFieldErrorProps = {
   className?: string;
+  children?: React.ReactNode;
 };
-const NumberFieldIncrement = React.forwardRef<
-  HTMLButtonElement,
-  NumberFieldIncrementProps
+const NumberFieldError = React.forwardRef<
+  HTMLDivElement,
+  NumberFieldErrorProps
 >(({ className, children }, ref) => {
   const {
-    numberFieldProps: { incrementButtonProps },
-    btnPosition,
+    numberFieldProps: {
+      errorMessageProps,
+      isInvalid,
+      validationErrors,
+      validationDetails,
+    },
+    errorMessage,
+    labelPosition,
   } = useNumberFieldContext();
 
+  let errorMessageString: React.ReactNode = null;
+  if (typeof errorMessage === "function") {
+    errorMessageString =
+      isInvalid && validationErrors != null && validationDetails != null
+        ? errorMessage({
+            isInvalid,
+            validationErrors,
+            validationDetails,
+          })
+        : null;
+  } else if (errorMessage) {
+    errorMessageString = errorMessage;
+  } else {
+    errorMessageString = validationErrors;
+  }
+
   return (
-    <Button
-      {...incrementButtonProps}
-      className={cn(
-        "z-10 rounded-md bg-primary text-primary-foreground transition-all enabled:hover:bg-primary/60 disabled:cursor-not-allowed disabled:opacity-50",
-        btnPosition === "outside"
-          ? "px-3 py-2"
-          : "absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-b-none p-0 focus-visible:outline-none",
-        className,
-      )}
-      // TODO: 类型没搞清楚
-      // ref={ref as React.MutableRefObject<HTMLButtonElement | null>}
+    <div
       ref={ref}
-      // ref={ref satisfies React.MutableRefObject<HTMLButtonElement | null>}
-    >
-      {children}
-    </Button>
-  );
-});
-NumberFieldIncrement.displayName = "NumberFieldIncrement";
-
-// type NumberFieldDecrementProps = ButtonProps;
-type NumberFieldDecrementProps = {
-  children: React.ReactNode;
-  className?: string;
-};
-const NumberFieldDecrement = React.forwardRef<
-  HTMLButtonElement,
-  NumberFieldDecrementProps
->(({ className, children }, ref) => {
-  const {
-    numberFieldProps: { decrementButtonProps },
-    btnPosition,
-  } = useNumberFieldContext();
-
-  return (
-    <Button
-      {...decrementButtonProps}
+      {...errorMessageProps}
       className={cn(
-        "z-10 rounded-md bg-primary text-primary-foreground transition-all enabled:hover:bg-primary/60 disabled:cursor-not-allowed disabled:opacity-50",
-        btnPosition === "outside"
-          ? "px-3 py-2"
-          : "absolute bottom-0 right-0 flex h-5 w-5 items-center justify-center rounded-t-none p-0 focus-visible:outline-none",
+        "text-red-500",
+        labelPosition === "left" && "col-start-2",
         className,
       )}
-      ref={ref}
     >
-      {children}
-    </Button>
+      {isInvalid && errorMessageString}
+    </div>
   );
 });
-NumberFieldDecrement.displayName = "NumberFieldDecrement";
-
-// TODO: 回头升级，去掉 react-aria，实现自己的
-// type NumberFieldInputProps = InputProps;
-// type NumberFieldInputProps = Omit<InputProps, "onChange">;
-type NumberFieldInputProps = { className?: string };
-const NumberFieldInput = React.forwardRef<
-  HTMLInputElement,
-  NumberFieldInputProps
->(({ className }, ref) => {
-  const {
-    numberFieldProps: { inputProps },
-    inputRef,
-  } = useNumberFieldContext();
-
-  // TODO: inputRef和ref是否有更好的处理方式
-  React.useEffect(() => {
-    if (ref && "current" in ref && inputRef?.current) {
-      ref.current = inputRef?.current;
-    }
-  }, [inputRef, ref]);
-  // console.log("numberFieldProps.inputProps:", numberFieldProps.inputProps);
-
-  return (
-    <input
-      ref={inputRef}
-      type="number"
-      className={cn(
-        "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-        // TODO: 后面的类是否有必要
-        // `${className} [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none`
-        className,
-      )}
-      {...inputProps}
-    />
-  );
-});
-NumberFieldInput.displayName = "NumberFieldInput";
+NumberFieldError.displayName = "NumberFieldError";
 
 export {
   NumberField,
-  NumberFieldGroup,
-  NumberFieldLabel,
   NumberFieldDecrement,
+  NumberFieldGroup,
   NumberFieldIncrement,
   NumberFieldInput,
+  NumberFieldLabel,
+  NumberFieldError,
 };
 
 export type {
+  NumberFieldRef,
   NumberFieldProps,
-  NumberFieldGroupProps,
-  NumberFieldLabelProps,
   NumberFieldDecrementProps,
+  NumberFieldGroupProps,
   NumberFieldIncrementProps,
   NumberFieldInputProps,
+  NumberFieldLabelProps,
+  NumberFieldErrorProps,
 };
 
 type ButtonProps = AriaButtonOptions<React.ElementType> & {
   children: React.ReactNode;
   className?: string;
-  // ref?: React.MutableRefObject<HTMLButtonElement | null>;
   ref?: React.RefObject<HTMLButtonElement | null>;
 };
 

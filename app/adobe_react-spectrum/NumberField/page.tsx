@@ -35,7 +35,6 @@ export default function Page() {
           name="width"
           label="Width"
           labelPosition="side"
-          validationBehavior="native"
           isRequired
           // errorMessage的priority比validate的高
           // errorMessage="Required errorMessage"

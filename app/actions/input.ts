@@ -1,8 +1,6 @@
 "use server";
 
 export async function create(formData: FormData) {
-  "use server";
-
   const rawFormData = {
     username: formData.get("username"),
     password: formData.get("password"),
