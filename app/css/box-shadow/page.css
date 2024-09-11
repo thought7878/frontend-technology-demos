@@ -1,0 +1,7 @@
+.shadowed-button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+}
