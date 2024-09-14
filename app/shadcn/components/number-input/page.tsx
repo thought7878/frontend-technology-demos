@@ -68,16 +68,16 @@ export default function Page() {
         <Input type="text" name="username" />
         <Input type="password" name="password" />
 
-        <NumberField name="amount" errorMessage="error Message">
+        <NumberField
+          name="amount"
+          errorMessage="error Message"
+          btnPosition="outside"
+        >
           <NumberFieldLabel className="text-blue-500">Count: </NumberFieldLabel>
           <NumberFieldGroup className="">
-            <NumberFieldIncrement>
-              <ChevronUpIcon className="h-4 w-4" />
-            </NumberFieldIncrement>
+            <NumberFieldIncrement />
             <NumberFieldInput />
-            <NumberFieldDecrement>
-              <ChevronDownIcon className="h-4 w-4" />
-            </NumberFieldDecrement>
+            <NumberFieldDecrement />
           </NumberFieldGroup>
         </NumberField>
         <Button type="submit">submit</Button>

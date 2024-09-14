@@ -36,6 +36,11 @@ export default function Page() {
           label="Width"
           labelPosition="side"
           isRequired
+          // label='price'
+          // aria-label="label888"
+          // aria-labelledby="labelledby888"
+          aria-describedby="describedby888"
+          aria-details="details888"
           // errorMessage的priority比validate的高
           // errorMessage="Required errorMessage"
           // validate={(value) => (value < 0 ? "value must be positive" : true)}

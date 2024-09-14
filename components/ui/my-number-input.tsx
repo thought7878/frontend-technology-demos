@@ -14,19 +14,11 @@ import {
   NumberFieldStateOptions,
   useNumberFieldState,
 } from "react-stately";
-// import {ValidationResult} from '@react-types/shared';
+import { type ValidationResult } from "@react-types/shared";
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-
-// TODO: need to be fixed
-export interface ValidationResult {
-  /** Whether the input value is invalid. */
-  isInvalid: boolean;
-  /** The current error messages for the input if it is invalid, otherwise an empty array. */
-  validationErrors: string[];
-  /** The native validation details for the input. */
-  validationDetails: ValidityState;
-}
+import { Button } from "@/components/ui/button";
 
 interface NumberFieldContextValue {
   numberFieldProps: NumberFieldAria;
@@ -35,7 +27,6 @@ interface NumberFieldContextValue {
   labelPosition?: "left" | "top";
   errorMessage?: React.ReactNode | ((v: ValidationResult) => React.ReactNode);
 }
-
 const NumberFieldContext = React.createContext<NumberFieldContextValue>(
   {} as NumberFieldContextValue,
 );
@@ -104,8 +95,8 @@ const NumberField = React.forwardRef<NumberFieldRef, NumberFieldProps>(
       numberFieldProps,
     }));
 
-    // TODO: 代码执行，debug不执行
-    console.log("执行了很多次:");
+    // TODO: fix this
+    console.log("many times");
     // console.log('state.realtimeValidation:', state.realtimeValidation);
     // console.log('numberFieldProps.validationErrors888:', numberFieldProps);
     // console.log(
@@ -127,11 +118,10 @@ const NumberField = React.forwardRef<NumberFieldRef, NumberFieldProps>(
           ref={ref as React.ForwardedRef<HTMLDivElement>}
           {...numberFieldProps.groupProps}
           className={cn(
-            "grid grid-cols-1 grid-rows-[auto_auto_auto] items-center gap-1",
-            // TODO: which is good ? 'grid grid-cols-1 grid-rows-[auto_auto_auto] gap-1 items-center',
+            "grid",
             labelPosition === "left"
-              ? "grid-cols-[auto_1fr] grid-rows-[1fr_auto]"
-              : "",
+              ? "grid-cols-[auto_1fr] grid-rows-[1fr_auto] gap-x-1"
+              : "grid-cols-1 grid-rows-[auto_1fr_auto]",
             className,
           )}
         >
@@ -168,7 +158,7 @@ NumberFieldGroup.displayName = "NumberFieldGroup";
 
 type NumberFieldIncrementProps = {
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 const NumberFieldIncrement = React.forwardRef<
   HTMLButtonElement,
@@ -179,26 +169,46 @@ const NumberFieldIncrement = React.forwardRef<
     btnPosition,
   } = useNumberFieldContext();
 
+  const { buttonProps } = useButton(
+    incrementButtonProps,
+    ref as React.RefObject<HTMLButtonElement | null>,
+  );
+
   return (
     <Button
-      {...incrementButtonProps}
+      {...buttonProps}
       className={cn(
-        "z-10 rounded-md bg-slate-900 text-slate-50 transition-all enabled:hover:bg-slate-900/60 disabled:cursor-not-allowed disabled:opacity-50",
+        // "z-10 rounded-md bg-slate-900 text-slate-50 transition-all enabled:hover:bg-slate-900/60 disabled:cursor-not-allowed disabled:opacity-50",
+        "z-10",
         btnPosition === "outside"
           ? "px-3 py-2"
-          : "absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-b-none p-0 focus-visible:outline-none",
+          : "absolute right-0 top-0 flex h-1/2 w-6 items-center justify-center rounded-b-none p-0 focus-visible:outline-none",
         className,
       )}
+      variant="outline"
       ref={ref}
     >
-      {children}
+      {children || <ChevronUpIcon className="h-4 w-4" />}
     </Button>
+    // <NumberFieldButton
+    //   {...incrementButtonProps}
+    //   className={cn(
+    //     "z-10 rounded-md bg-slate-900 text-slate-50 transition-all enabled:hover:bg-slate-900/60 disabled:cursor-not-allowed disabled:opacity-50",
+    //     btnPosition === "outside"
+    //       ? "px-3 py-2"
+    //       : "absolute right-0 top-0 flex h-1/2 w-6 items-center justify-center rounded-b-none p-0 focus-visible:outline-none",
+    //     className,
+    //   )}
+    //   ref={ref}
+    // >
+    //   {children || <ChevronUpIcon className="h-4 w-4" />}
+    // </NumberFieldButton>
   );
 });
 NumberFieldIncrement.displayName = "NumberFieldIncrement";
 
 type NumberFieldDecrementProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 };
 const NumberFieldDecrement = React.forwardRef<
@@ -210,20 +220,40 @@ const NumberFieldDecrement = React.forwardRef<
     btnPosition,
   } = useNumberFieldContext();
 
+  const { buttonProps } = useButton(
+    decrementButtonProps,
+    ref as React.RefObject<HTMLButtonElement | null>,
+  );
+
   return (
     <Button
-      {...decrementButtonProps}
+      {...buttonProps}
       className={cn(
-        "z-10 rounded-md bg-slate-900 text-slate-50 transition-all enabled:hover:bg-slate-900/60 disabled:cursor-not-allowed disabled:opacity-50",
+        // "z-10 rounded-md bg-slate-900 text-slate-50 transition-all enabled:hover:bg-slate-900/60 disabled:cursor-not-allowed disabled:opacity-50",
+        "z-10",
         btnPosition === "outside"
           ? "px-3 py-2"
-          : "absolute bottom-0 right-0 flex h-5 w-5 items-center justify-center rounded-t-none p-0 focus-visible:outline-none",
+          : "absolute bottom-0 right-0 flex h-1/2 w-6 items-center justify-center rounded-t-none p-0 focus-visible:outline-none",
         className,
       )}
+      variant="outline"
       ref={ref}
     >
-      {children}
+      {children || <ChevronDownIcon className="h-4 w-4" />}
     </Button>
+    // <NumberFieldButton
+    //   {...decrementButtonProps}
+    //   className={cn(
+    //     "z-10 rounded-md bg-slate-900 text-slate-50 transition-all enabled:hover:bg-slate-900/60 disabled:cursor-not-allowed disabled:opacity-50",
+    //     btnPosition === "outside"
+    //       ? "px-3 py-2"
+    //       : "absolute bottom-0 right-0 flex h-1/2 w-6 items-center justify-center rounded-t-none p-0 focus-visible:outline-none",
+    //     className,
+    //   )}
+    //   ref={ref}
+    // >
+    //   {children || <ChevronDownIcon className="h-4 w-4" />}
+    // </NumberFieldButton>
   );
 });
 NumberFieldDecrement.displayName = "NumberFieldDecrement";
@@ -245,12 +275,13 @@ const NumberFieldInput = React.forwardRef<
   }, [inputRef, ref]);
 
   return (
+    // TODO: should change to Input for shadcn
     <input
       ref={inputRef}
       type="number"
       className={cn(
-        "flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white transition-all file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-        isInvalid && "focus-visible:ring-red-500",
+        "h-10 w-full rounded-md border border-slate-200 px-3 py-2 text-sm transition-all placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-50",
+        isInvalid && "focus-visible:ring-destructive",
         className,
       )}
       {...inputProps}
@@ -289,12 +320,12 @@ NumberFieldLabel.displayName = "NumberFieldLabel";
 
 type NumberFieldErrorProps = {
   className?: string;
-  children?: React.ReactNode;
+  // children?: React.ReactNode;
 };
 const NumberFieldError = React.forwardRef<
   HTMLDivElement,
   NumberFieldErrorProps
->(({ className, children }, ref) => {
+>(({ className }, ref) => {
   const {
     numberFieldProps: {
       errorMessageProps,
@@ -327,7 +358,7 @@ const NumberFieldError = React.forwardRef<
       ref={ref}
       {...errorMessageProps}
       className={cn(
-        "text-red-500",
+        "text-destructive",
         labelPosition === "left" && "col-start-2",
         className,
       )}
@@ -365,9 +396,9 @@ type ButtonProps = AriaButtonOptions<React.ElementType> & {
   ref?: React.RefObject<HTMLButtonElement | null>;
 };
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const NumberFieldButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, ...props }, ref) => {
-    let { buttonProps } = useButton(
+    const { buttonProps } = useButton(
       props,
       ref as React.RefObject<HTMLButtonElement | null>,
     );
@@ -380,4 +411,4 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   },
 );
 
-Button.displayName = "Button";
+NumberFieldButton.displayName = "NumberFieldButton";
