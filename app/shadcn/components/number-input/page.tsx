@@ -71,7 +71,8 @@ export default function Page() {
         <NumberField
           name="amount"
           errorMessage="error Message"
-          btnPosition="outside"
+          // btnPosition="outside"
+          isDisabled
         >
           <NumberFieldLabel className="text-blue-500">Count: </NumberFieldLabel>
           <NumberFieldGroup className="">

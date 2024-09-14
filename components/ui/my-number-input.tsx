@@ -19,6 +19,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface NumberFieldContextValue {
   numberFieldProps: NumberFieldAria;
@@ -176,16 +177,15 @@ const NumberFieldIncrement = React.forwardRef<
 
   return (
     <Button
-      {...buttonProps}
       className={cn(
         // "z-10 rounded-md bg-slate-900 text-slate-50 transition-all enabled:hover:bg-slate-900/60 disabled:cursor-not-allowed disabled:opacity-50",
-        "z-10",
         btnPosition === "outside"
           ? "px-3 py-2"
-          : "absolute right-0 top-0 flex h-1/2 w-6 items-center justify-center rounded-b-none p-0 focus-visible:outline-none",
+          : "absolute right-0 top-0 z-10 flex h-1/2 w-6 items-center justify-center rounded-b-none p-0 focus-visible:outline-none",
         className,
       )}
       variant="outline"
+      {...buttonProps}
       ref={ref}
     >
       {children || <ChevronUpIcon className="h-4 w-4" />}
@@ -227,16 +227,16 @@ const NumberFieldDecrement = React.forwardRef<
 
   return (
     <Button
-      {...buttonProps}
       className={cn(
         // "z-10 rounded-md bg-slate-900 text-slate-50 transition-all enabled:hover:bg-slate-900/60 disabled:cursor-not-allowed disabled:opacity-50",
-        "z-10",
+        // "disabled:cursor-not-allowed",
         btnPosition === "outside"
           ? "px-3 py-2"
-          : "absolute bottom-0 right-0 flex h-1/2 w-6 items-center justify-center rounded-t-none p-0 focus-visible:outline-none",
+          : "absolute bottom-0 right-0 z-10 flex h-1/2 w-6 items-center justify-center rounded-t-none p-0 focus-visible:outline-none",
         className,
       )}
       variant="outline"
+      {...buttonProps}
       ref={ref}
     >
       {children || <ChevronDownIcon className="h-4 w-4" />}
@@ -275,12 +275,11 @@ const NumberFieldInput = React.forwardRef<
   }, [inputRef, ref]);
 
   return (
-    // TODO: should change to Input for shadcn
-    <input
+    <Input
       ref={inputRef}
       type="number"
       className={cn(
-        "h-10 w-full rounded-md border border-slate-200 px-3 py-2 text-sm transition-all placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-50",
+        // "h-10 w-full rounded-md border border-slate-200 px-3 py-2 text-sm transition-all placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-50",
         isInvalid && "focus-visible:ring-destructive",
         className,
       )}
