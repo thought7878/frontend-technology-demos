@@ -96,8 +96,12 @@ const NumberField = React.forwardRef<NumberFieldRef, NumberFieldProps>(
       numberFieldProps,
     }));
 
-    // TODO: fix this
-    console.log("many times");
+    // TODO: 多次执行，断点却不停止在这
+    // console.log("many times");
+    const renderCountRef = React.useRef(0);
+    renderCountRef.current += 1;
+    console.log(`组件渲染了 ${renderCountRef.current} 次`);
+
     // console.log('state.realtimeValidation:', state.realtimeValidation);
     // console.log('numberFieldProps.validationErrors888:', numberFieldProps);
     // console.log(
@@ -179,6 +183,7 @@ const NumberFieldIncrement = React.forwardRef<
     <Button
       className={cn(
         // "z-10 rounded-md bg-slate-900 text-slate-50 transition-all enabled:hover:bg-slate-900/60 disabled:cursor-not-allowed disabled:opacity-50",
+        "focus-visible:ring-0 focus-visible:ring-offset-0",
         btnPosition === "outside"
           ? "px-3 py-2"
           : "absolute right-0 top-0 z-10 flex h-1/2 w-6 items-center justify-center rounded-b-none p-0 focus-visible:outline-none",
@@ -230,6 +235,7 @@ const NumberFieldDecrement = React.forwardRef<
       className={cn(
         // "z-10 rounded-md bg-slate-900 text-slate-50 transition-all enabled:hover:bg-slate-900/60 disabled:cursor-not-allowed disabled:opacity-50",
         // "disabled:cursor-not-allowed",
+        "focus-visible:ring-0 focus-visible:ring-offset-0",
         btnPosition === "outside"
           ? "px-3 py-2"
           : "absolute bottom-0 right-0 z-10 flex h-1/2 w-6 items-center justify-center rounded-t-none p-0 focus-visible:outline-none",
@@ -278,6 +284,7 @@ const NumberFieldInput = React.forwardRef<
     <Input
       ref={inputRef}
       type="number"
+      // TODO: cn is nessary?
       className={cn(
         // "h-10 w-full rounded-md border border-slate-200 px-3 py-2 text-sm transition-all placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-50",
         isInvalid && "focus-visible:ring-destructive",
