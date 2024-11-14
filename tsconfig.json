@@ -26,7 +26,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/shadcn/components/select/page.jsx"
+    "app/shadcn/components/select/page.jsx",
+    "app/library/useQueryTable/useQueryTable.js"
   ],
   "exclude": ["node_modules"]
 }

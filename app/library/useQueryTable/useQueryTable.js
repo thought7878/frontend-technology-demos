@@ -1,9 +1,11 @@
+"use client";
+import React from "react";
 /**
  *
  * @param {*} defaultQuery  表单查询默认参数
  * @param {*} api           biaog
  */
-function useQueryTable(defaultQuery = {}, api) {
+export function useQueryTable(defaultQuery = {}, api) {
   /* 保存查询表格表单信息 */
   const formData = React.useRef({});
   /* 保存查询表格分页信息 */
@@ -11,16 +13,15 @@ function useQueryTable(defaultQuery = {}, api) {
     page: defaultQuery.page || 1,
     pageSize: defaultQuery.pageSize || 10,
   });
-
-  /* 强制更新 */
-  const [, forceUpdate] = React.useState(null);
-
   /* 请求表格数据 */
   const [tableData, setTableData] = React.useState({
     data: [],
     total: 0,
     current: 1,
   });
+
+  /* 强制更新 */
+  const [, forceUpdate] = React.useState(null);
 
   /* 请求列表数据 */
   const getList = React.useCallback(
@@ -42,7 +43,7 @@ function useQueryTable(defaultQuery = {}, api) {
       } else {
       }
     },
-    [api],
+    [api, defaultQuery],
   ); /* 以api作为依赖项，当api改变，重新声明getList */
 
   /* 改变表单单元项 */
@@ -87,13 +88,15 @@ function useQueryTable(defaultQuery = {}, api) {
   /* 组合暴露参数 */
   return [
     {
-      /* 组合表格状态 */ tableData,
+      /* 组合表格状态 */
+      tableData,
       handerChange,
       getList,
       pagination: pagination.current,
     },
     {
-      /* 组合搜索表单状态 */ formData: formData.current,
+      /* 组合搜索表单状态 */
+      formData: formData.current,
       setFormItem,
       reset,
     },
