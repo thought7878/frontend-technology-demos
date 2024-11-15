@@ -6,6 +6,12 @@ const useSelections = <T,>(lists: T[], initValues: T[] = []) => {
   // 通过new Set去处理选中的数据,转化为数组需要使用Array.from
   const selectedSet = useCreation(() => new Set(selected), [selected]);
 
+  /**
+   * 检查给定数据是否被选中
+   *
+   * @param data - 待检查的数据，类型为T
+   * @returns 如果数据在selectedSet中，则返回true，否则返回false
+   */
   const isSelected = (data: T) => selectedSet.has(data);
 
   // 增加
@@ -74,7 +80,7 @@ const useSelections = <T,>(lists: T[], initValues: T[] = []) => {
   const toggleAll = () => (allSelected ? unSelectAll() : selectAll());
 
   return {
-    selected, // 以选择的元素组
+    selected, // 已经选择的元素组
     isSelected, // 是否被选中
     selectAdd,
     selectDel,
