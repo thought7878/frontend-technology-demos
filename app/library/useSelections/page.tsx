@@ -12,13 +12,13 @@ const Index = () => {
   const {
     selected,
     isSelected,
-    toggle,
-    selectAdd,
-    selectDel,
-    setSelect,
-    allSelected,
+    toggleItem,
+    addSelect,
+    deleteSelect,
+    updateSelect,
+    isSelectedAll,
     toggleAll,
-    partiallySelected,
+    isSelectedPartially,
   } = useSelections(lists, [1, 2]);
 
   return (
@@ -33,9 +33,9 @@ const Index = () => {
         }}
       >
         <Checkbox
-          checked={allSelected}
+          checked={isSelectedAll}
           onClick={toggleAll}
-          indeterminate={partiallySelected}
+          indeterminate={isSelectedPartially}
         >
           全选
         </Checkbox>
@@ -46,24 +46,24 @@ const Index = () => {
           <Button
             type="primary"
             style={{ marginRight: 4 }}
-            onClick={() => setSelect([1, 3, 5])}
+            onClick={() => updateSelect([1, 3, 5])}
           >
             设置 1，3，5
           </Button>
           <Button
             type="primary"
             style={{ marginRight: 4 }}
-            onClick={() => selectAdd([3, 7])}
+            onClick={() => addSelect([3, 7])}
           >
             添加 3，7
           </Button>
-          <Button onClick={() => selectDel([3, 7])}>删除 3，7</Button>
+          <Button onClick={() => deleteSelect([3, 7])}>删除 3，7</Button>
         </div>
       </div>
       <Row style={{ padding: "8px 0" }}>
         {lists.map((ele) => (
           <Col span={12} key={ele}>
-            <Checkbox checked={isSelected(ele)} onClick={() => toggle(ele)}>
+            <Checkbox checked={isSelected(ele)} onClick={() => toggleItem(ele)}>
               {ele}
             </Checkbox>
           </Col>
