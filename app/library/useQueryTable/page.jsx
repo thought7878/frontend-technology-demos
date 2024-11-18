@@ -1,5 +1,41 @@
+"use client";
 import { Input, Select, Option, Table } from "antd";
 import { useQueryTable } from "./useQueryTable";
+import { listData } from "./mock";
+import React, { useCallback, useState } from "react";
+
+/* TODO:  useTable */
+const columns = [
+  {
+    title: "商品名称",
+    dataIndex: "id",
+    key: "giftName",
+  },
+  {
+    title: "价格",
+    dataIndex: "price",
+    key: "price",
+  },
+  {
+    title: "图片",
+    dataIndex: "giftImage",
+    key: "giftImage",
+    render: (text) => (
+      <div>
+        <img src={text} style={{ width: "70px", height: "70px" }} />
+      </div>
+    ),
+  },
+];
+
+function threeNumberRandom() {
+  const result = [];
+  while (result.length < 3) {
+    const number = parseInt(Math.random() * 9);
+    if (result.indexOf(number) === -1) result.push(number);
+  }
+  return result;
+}
 
 /* 模拟数据请求 */
 function getTableData(payload) {
@@ -17,33 +53,34 @@ function getTableData(payload) {
     });
   });
 }
-export default function Index() {
+export default function Page() {
   const [table, form] = useQueryTable({ pageSize: 3 }, getTableData);
   const { formData, setFormItem, reset } = form;
-  const { pagination, tableData, getList, handerChange } = table;
+  const { pagination, tableData, getList, changePagination } = table;
+
   return (
     <div style={{ margin: "30px" }}>
       <div style={{ marginBottom: "24px" }}>
         <Input
           onChange={(e) => setFormItem("name", e.target.value)}
           placeholder="请输入名称"
-          style={inputStyle}
+          className="mr-[24px] w-[200px]"
           value={formData.name || ""}
         />
         <Input
           onChange={(e) => setFormItem("price", e.target.value)}
           placeholder="请输入价格"
-          style={inputStyle}
+          className="mr-[24px] w-[200px]"
           value={formData.price || ""}
         />
         <Select
           onChange={(value) => setFormItem("type", value)}
           placeholder="请选择"
-          style={inputStyle}
+          className="mr-[24px] w-[200px]"
           value={formData.type}
         >
-          <Option value="1">家电</Option>
-          <Option value="2">生活用品</Option>
+          <Select.Option value="1">家电</Select.Option>
+          <Select.Option value="2">生活用品</Select.Option>
         </Select>
         <button className="searchbtn" onClick={() => getList()}>
           提交
@@ -58,7 +95,7 @@ export default function Index() {
           dataSource={tableData.list}
           height="300px"
           onChange={(res) => {
-            handerChange(res.current, res.pageSize);
+            changePagination(res.current, res.pageSize);
           }}
           pagination={{
             ...pagination,

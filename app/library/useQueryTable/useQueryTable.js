@@ -6,14 +6,14 @@ import React from "react";
  * @param {*} api           biaog
  */
 export function useQueryTable(defaultQuery = {}, api) {
-  /* 保存查询表格表单信息 */
+  /* 表单信息 */
   const formData = React.useRef({});
-  /* 保存查询表格分页信息 */
+  /* 分页信息 */
   const pagination = React.useRef({
     page: defaultQuery.page || 1,
     pageSize: defaultQuery.pageSize || 10,
   });
-  /* 请求表格数据 */
+  /* 表格数据 */
   const [tableData, setTableData] = React.useState({
     data: [],
     total: 0,
@@ -31,8 +31,8 @@ export function useQueryTable(defaultQuery = {}, api) {
         (await api({
           ...defaultQuery,
           ...payload,
-          ...pagination.current,
-          ...formData.current,
+          ...pagination.current, //使用了ref，因此不需要依赖
+          ...formData.current, //使用了ref，因此不需要依赖
         })) || {};
       if (data.code == 200) {
         setTableData({
@@ -46,7 +46,7 @@ export function useQueryTable(defaultQuery = {}, api) {
     [api, defaultQuery],
   ); /* 以api作为依赖项，当api改变，重新声明getList */
 
-  /* 改变表单单元项 */
+  /* 改变表单数据/单元项 */
   const setFormItem = React.useCallback(function (key, value) {
     const form = formData.current;
     form[key] = value;
@@ -65,11 +65,11 @@ export function useQueryTable(defaultQuery = {}, api) {
       /* 请求数据  */
       getList();
     },
-    [getList],
+    [getList, pagination, defaultQuery],
   ); /* getList 作为 reset 的依赖项  */
 
   /* 处理分页逻辑 */
-  const handerChange = React.useCallback(
+  const changePagination = React.useCallback(
     async function (page, pageSize) {
       pagination.current = {
         page,
@@ -78,7 +78,7 @@ export function useQueryTable(defaultQuery = {}, api) {
       getList();
     },
     [getList],
-  ); /* getList 作为 handerChange 的依赖项  */
+  ); /* getList 作为 changePagination 的依赖项  */
 
   /* 初始化请求数据 */
   React.useEffect(() => {
@@ -90,9 +90,9 @@ export function useQueryTable(defaultQuery = {}, api) {
     {
       /* 组合表格状态 */
       tableData,
-      handerChange,
       getList,
       pagination: pagination.current,
+      changePagination,
     },
     {
       /* 组合搜索表单状态 */
