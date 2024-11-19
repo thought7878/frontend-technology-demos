@@ -1,14 +1,16 @@
 "use client";
+import React, { useCallback, useEffect, useState } from "react";
 import { Input, Select, Option, Table } from "antd";
 import { useQueryTable } from "./useQueryTable";
 import { listData } from "./mock";
-import React, { useCallback, useState } from "react";
+import apiClient from "../utils/apiClient";
 
 /* TODO:  useTable */
 const columns = [
   {
     title: "商品名称",
-    dataIndex: "id",
+    // dataIndex: "id",
+    dataIndex: "giftName",
     key: "giftName",
   },
   {
@@ -53,10 +55,21 @@ function getTableData(payload) {
     });
   });
 }
+
+function fetchTableData(params) {
+  return apiClient.get(`/gifts`, { params });
+}
+
 export default function Page() {
-  const [table, form] = useQueryTable({ pageSize: 3 }, getTableData);
+  const [table, form] = useQueryTable({ pageSize: 3 }, fetchTableData);
   const { formData, setFormItem, reset } = form;
   const { pagination, tableData, getList, changePagination } = table;
+
+  useEffect(() => {
+    apiClient.get(`/gifts`).then((res) => {
+      console.log(res);
+    });
+  }, []);
 
   return (
     <div style={{ margin: "30px" }}>

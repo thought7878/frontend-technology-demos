@@ -33,6 +33,7 @@
     "@types/lodash.debounce": "^4.0.9",
     "@types/lodash.throttle": "^4.1.9",
     "antd": "^5.22.0",
+    "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
