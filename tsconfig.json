@@ -29,7 +29,8 @@
     ".next/types/**/*.ts",
     "app/shadcn/components/select/page.jsx",
     "app/library/useQueryTable/useQueryTable.js",
-    "app/library/table/index.jsx"
+    "app/library/table/index.jsx",
+    "app/library/pagination/index.jsx"
   ],
   "exclude": ["node_modules"]
 }
