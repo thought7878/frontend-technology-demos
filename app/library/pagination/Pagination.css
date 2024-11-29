@@ -25,3 +25,9 @@
   background-color: #f9f9f9;
   cursor: pointer;
 }
+
+.ellipsis {
+  margin: 0 5px;
+  user-select: none;
+  cursor: default;
+}
