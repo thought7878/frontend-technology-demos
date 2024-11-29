@@ -66,7 +66,7 @@ const Pagination = ({
         Prev
       </button>
       {/* 折叠时，显示第一页按钮 */}
-      {showEllipsis && startPage > 1 && (
+      {showEllipsis && startPage > 2 && (
         <button
           className={`pagination-button`}
           onClick={() => handlePageChange(1)}
@@ -86,6 +86,7 @@ const Pagination = ({
           {index + startPage}
         </button>
       ))}
+
       {/* 省略号 */}
       {showEllipsis && endPage < totalPages && (
         <span className="ellipsis">...</span>
