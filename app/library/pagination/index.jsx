@@ -3,11 +3,14 @@ import "./Pagination.css";
 
 const Pagination = ({
   totalItems,
-  itemsPerPage,
+  itemsPerPage = 10, // 默认每页显示 10 条
   maxVisiblePages = 5, // 默认最多显示5个页码按钮（包含省略号等）
   showEllipsis = true, // 是否显示省略号，默认为 true
+  pageSizeOptions = [5, 10, 20],
 }) => {
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  // 当前每页显示条数
+  const [pageSize, setPageSize] = useState(itemsPerPage);
+  const totalPages = Math.ceil(totalItems / pageSize);
   const [currentPage, setCurrentPage] = useState(1);
 
   /**
@@ -57,6 +60,13 @@ const Pagination = ({
     }
   };
 
+  const handlePageSizeChange = (e) => {
+    const newPageSize = parseInt(e.target.value);
+    setPageSize(newPageSize);
+    // 切换每页显示条数时，重置当前页为第一页
+    setCurrentPage(1);
+  };
+
   return (
     <div className="pagination-container">
       <button
@@ -104,6 +114,19 @@ const Pagination = ({
       <button className="pagination-button next-button" onClick={goToNextPage}>
         Next
       </button>
+
+      {/* 每页显示条数选择器 */}
+      <select
+        id="page-size-select"
+        value={pageSize}
+        onChange={handlePageSizeChange}
+      >
+        {pageSizeOptions.map((size) => (
+          <option key={size} value={size}>
+            {size}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };
