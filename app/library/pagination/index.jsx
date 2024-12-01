@@ -7,6 +7,7 @@ const Pagination = ({
   maxVisiblePages = 5, // 默认最多显示5个页码按钮（包含省略号等）
   showEllipsis = true, // 是否显示省略号，默认为 true
   pageSizeOptions = [5, 10, 20],
+  onChange = (currentPage, pageSize, totalPages) => {},
 }) => {
   // 当前每页显示条数
   const [pageSize, setPageSize] = useState(itemsPerPage);
@@ -45,6 +46,7 @@ const Pagination = ({
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
+      onChange(page, pageSize, totalPages);
     }
   };
 
@@ -65,6 +67,7 @@ const Pagination = ({
     setPageSize(newPageSize);
     // 切换每页显示条数时，重置当前页为第一页
     setCurrentPage(1);
+    onChange(1, newPageSize, Math.ceil(totalItems / newPageSize));
   };
 
   return (

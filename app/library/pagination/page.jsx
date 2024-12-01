@@ -15,6 +15,11 @@ const MyComponent = () => {
         itemsPerPage={itemsPerPage}
         maxVisiblePages={maxVisiblePages}
         showEllipsis={showEllipsis}
+        onChange={(currentPage, pageSize, totalPages) => {
+          console.log(
+            `当前页码：${currentPage}，每页显示条数：${pageSize}，总页数：${totalPages}`,
+          );
+        }}
       />
     </div>
   );
