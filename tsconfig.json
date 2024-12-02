@@ -30,7 +30,8 @@
     "app/shadcn/components/select/page.jsx",
     "app/library/useQueryTable/useQueryTable.js",
     "app/library/table/index.jsx",
-    "app/library/pagination/index.jsx"
+    "app/library/pagination/index.jsx",
+    "app/library/table/useTable.js"
   ],
   "exclude": ["node_modules"]
 }
