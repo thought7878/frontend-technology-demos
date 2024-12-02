@@ -1,15 +1,65 @@
 .table-container {
+  overflow-x: auto;
+}
+
+.table {
   width: 100%;
   border-collapse: collapse;
+  border-spacing: 0;
 }
 
-.table-container th,
-.table-container td {
-  border: 1px solid #ccc;
-  padding: 8px;
-}
-
-.table-container th {
+.table-header {
   background-color: #f2f2f2;
+  padding: 8px;
   text-align: left;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.sort-icon {
+  margin-left: 5px;
+}
+
+.asc-icon {
+  color: green;
+}
+
+.desc-icon {
+  color: red;
+}
+
+.filter-input {
+  margin-left: 5px;
+  width: 80px;
+}
+
+.table-cell {
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+.edit-input {
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.pagination select {
+  margin: 0 5px;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #f2f2f2;
+  cursor: pointer;
 }

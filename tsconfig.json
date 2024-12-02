@@ -29,7 +29,7 @@
     ".next/types/**/*.ts",
     "app/shadcn/components/select/page.jsx",
     "app/library/useQueryTable/useQueryTable.js",
-    "app/library/table/index.jsx",
+    "app/library/table/old1.jsx",
     "app/library/pagination/index.jsx",
     "app/library/table/useTable.js"
   ],
