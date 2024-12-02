@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Pagination.css";
 
 const Pagination = ({
-  totalItems,
+  totalItems, // 总数据条数
   itemsPerPage = 10, // 默认每页显示 10 条
   maxVisiblePages = 5, // 默认最多显示5个页码按钮（包含省略号等）
   showEllipsis = true, // 是否显示省略号，默认为 true

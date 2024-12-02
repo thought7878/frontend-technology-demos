@@ -6,8 +6,33 @@ import apiClient from "../utils/apiClient";
 
 import Table from "./new";
 import useTable from "@/app/library/table/useTable";
+import AntdTable from "@/app/library/table/antd_talbe";
 
 const Page = () => {
+  const columns = [
+    { title: "Name", field: "name" },
+    { title: "Age", field: "age" },
+    { title: "Email", field: "email" },
+  ];
+
+  // 模拟大量数据，这里生成 100 条示例数据
+  const data = Array.from({ length: 100 }, (_, index) => ({
+    id: index + 1,
+    name: `User${index + 1}`,
+    age: Math.floor(Math.random() * 50 + 18),
+    email: `user${index + 1}@example.com`,
+  }));
+
+  return (
+    <div>
+      <Table columns={columns} data={data} />
+    </div>
+  );
+};
+
+export default Page;
+
+/* const Page = () => {
   const { data } = useTable({
     pagination: {
       currentPage: 1,
@@ -20,6 +45,8 @@ const Page = () => {
     // { title: "Email", field: "email" },
   ];
   console.log("data:", data);
+
+  // return <AntdTable />;
 
   return (
     <div>
@@ -37,7 +64,7 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Page; */
 
 /* 
 export default function Page() {
