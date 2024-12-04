@@ -26,6 +26,7 @@ describe("useSelections", () => {
     act(() => {
       selectDel(2);
     });
+    å;
     expect(result.current.selected).toEqual([3]);
     act(() => {
       selectDel([2, 3]);
