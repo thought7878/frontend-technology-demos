@@ -66,4 +66,28 @@ describe("deepClone", () => {
     expect(clonedObj.b).not.toBe(objB);
     expect(clonedObj.b.a).toBe(clonedObj);
   });
+
+  // 测试函数
+  /* test("should clone functions correctly", () => {
+    const fn = function () {
+      return "hello";
+    };
+    const clonedFn = deepClone(fn);
+
+    expect(clonedFn()).toBe("hello");
+    expect(clonedFn).not.toBe(fn);
+  }); */
+  // 测试 对象中的函数
+  test("should clone functions correctly", () => {
+    const obj = {
+      a: 1,
+      b: function () {
+        return "hello";
+      },
+    };
+    const clonedObj = deepClone(obj);
+
+    expect(clonedObj.b()).toBe("hello");
+    expect(clonedObj.b).not.toBe(obj.b);
+  });
 });

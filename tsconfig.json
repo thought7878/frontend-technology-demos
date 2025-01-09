@@ -31,7 +31,8 @@
     "app/library/useQueryTable/useQueryTable.js",
     "app/library/table/old1.jsx",
     "app/library/pagination/index.jsx",
-    "app/library/table/useTable.js"
+    "app/library/table/useTable.js",
+    "app/library/date-picker/index.js"
   ],
   "exclude": ["node_modules"]
 }
