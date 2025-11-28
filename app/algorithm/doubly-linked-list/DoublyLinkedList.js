@@ -8,13 +8,28 @@ class Node{
   
 }
 
-
+/**
+ *
+ *
+ * @class DoublyLinkedList
+ */
 class DoublyLinkedList{
 
   constructor() {
     this.head = null;
     this.tail = null;
     this.length = 0;
+  }
+
+
+  print() {
+    let listStr = '';
+    let current = this.head;
+    while (current) {
+      listStr = listStr + '<->' + current.value;
+      current = current.next;
+    }
+    return listStr;
   }
 
   push(val) {
@@ -50,34 +65,90 @@ class DoublyLinkedList{
       - return true
   */
   pop() {
-    if (this.length === 0) return false;
+    if (this.length === 0) return null;
+
+    let poppedNode = this.tail;
 
     if (this.length === 1) {
       this.head = null;
       this.tail = null;
       this.length = 0;
-      return true;
+    } else {
+      let prevNode = this.tail.previous;
+      prevNode.next = null;
+      this.tail.previous = null;
+      this.tail = prevNode;
+      this.length--;
     }
-
-    let prevNode = this.tail.previous;
-    prevNode.next = null;
-    this.tail.previous = null;
-    this.tail = prevNode;
-    this.length--;
-    return true;
+    
+    return poppedNode;
     
   }
 
-  print() {
-    let listStr = '';
-    let current = this.head;
-    while (current) {
-      listStr = listStr + '<->' + current.value;
-      current = current.next;
+
+  /* 
+  移除链表开头的节点。
+  1 <-> 2 <-> 3
+  h           t 
+  伪代码/pseudo code：
+    - 边界情况：
+    - 链表没有node：return null。
+    - 只有一个node：head=null，tail=null，length=0。
+    - 其他情况：
+      - newHead=head.next
+      - head.next=null，newHead.previous=null
+      - 更新head=newHead
+      - 更新length-1
+  */
+  shift() {
+    if (!this.head) return null;
+
+    let shiftedNode = this.head;
+
+    if (this.length === 1) {
+      this.head = null;
+      this.tail = null;
+      this.length = 0;
+    } else {
+      let newHead = this.head.next;
+      this.head.next = null;
+      newHead.previous = null;
+      this.head = newHead;
+      this.length--;
     }
-    return listStr;
+
+    return shiftedNode;
   }
-  
+
+  /*
+  向双向链表的开头添加一个节点。
+  1 <-> 2 <-> 3
+  h           t 
+
+  伪代码/pseudo code：
+  - 新建Node对象  
+  - 如果是空list
+    - head/tail为新Node对象
+    - length+1
+  - 如果不是空list
+    - head.previous=newNode
+    - newNode.next=head
+    - head=newNode
+    - length+1
+  */
+  unshift(val) {
+    let newNode = new Node(val);
+    if (this.length === 0) {
+      this.head = this.tail = newNode;
+    } else {
+      this.head.previous = newNode;
+      newNode.next = this.head;
+      this.head = newNode;
+    }
+    this.length++;
+
+    return newNode;
+  }
 }
 
 
@@ -90,6 +161,8 @@ list.push(5);
 
 console.log('原链表：', list.print());
 
-list.pop()
+// list.pop()
+// list.shift();
+list.unshift(0);
 
 console.log(list.print());
