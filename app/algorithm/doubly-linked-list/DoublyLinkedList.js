@@ -149,10 +149,42 @@ class DoublyLinkedList{
 
     return newNode;
   }
+
+  /*
+  根据index，获取对应的node。
+  0 <-> 1 <-> 2 <-> 3
+  h                 t 
+
+  伪代码/pseudo code：
+  - edge case：
+    - 如果list为空，return null
+    - 如果index<0||index>=length，return null
+  - 计数currentIndex，每循环一次加1，直到index===currentIndex，退出循环，返回当前的node
+  - 使用for循环
+    - 终止条件是i<length
+    - 判断是否i===currentIndex，是：return当前的node；否：继续下一次循环
+  - 整个循环都没找到，return null
+
+  */
+  get(index) {
+    if (this.length === 0) return null;
+    if (index < 0 || index >= this.length) return null;
+
+    let currentNode = this.head;
+    for (let currentIndex = 0; currentIndex < this.length; currentIndex++) {
+      if (index === currentIndex) {
+        return currentNode;
+      }
+      currentNode = currentNode.next;
+    }
+
+    return null;
+  }
 }
 
 
 let list = new DoublyLinkedList();
+list.push(0);
 list.push(1);
 list.push(2);
 list.push(3);
@@ -163,6 +195,11 @@ console.log('原链表：', list.print());
 
 // list.pop()
 // list.shift();
-list.unshift(0);
+// list.unshift(0);
 
-console.log(list.print());
+
+
+// console.log(list.print());
+
+console.log(list.get(3));
+console.log(list.get(5));
