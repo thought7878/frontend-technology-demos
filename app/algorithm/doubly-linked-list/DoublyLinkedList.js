@@ -159,26 +159,45 @@ class DoublyLinkedList{
   - edge case：
     - 如果list为空，return null
     - 如果index<0||index>=length，return null
-  - 计数currentIndex，每循环一次加1，直到index===currentIndex，退出循环，返回当前的node
-  - 使用for循环
+
+  - 根据index、length，判断是从头部开始还是尾部开始，如果index<length/2，从头部开始，否则从尾部开始
+  - 使用for循环，从头部开始，找node：
     - 终止条件是i<length
-    - 判断是否i===currentIndex，是：return当前的node；否：继续下一次循环
-  - 整个循环都没找到，return null
+    - 计数currentIndex从第一个节点（0）开始，每循环一次加1，直到index===currentIndex，退出循环，返回当前的node
+    - 判断是否index===currentIndex，是：return当前的node；否：继续下一次循环
+  - 使用for循环，从尾部开始，找node：  
+    - 计数currentIndex从最后一个节点（length-1）开始，每循环一次减去1，直到index===currentIndex，退出循环，返回当前的node
+    - 判断是否index===currentIndex，是：return当前的node；否：继续下一次循环，currentNode = currentNode.previous;
+
+  - 整个循环都没找到，return null ？？？
 
   */
   get(index) {
     if (this.length === 0) return null;
     if (index < 0 || index >= this.length) return null;
 
-    let currentNode = this.head;
-    for (let currentIndex = 0; currentIndex < this.length; currentIndex++) {
-      if (index === currentIndex) {
-        return currentNode;
+    let currentNode;
+    if (index < this.length/2) {
+      currentNode = this.head;
+      for (let currentIndex = 0; currentIndex < this.length; currentIndex++) {
+        console.log('currentIndex:', currentIndex);
+        if (index === currentIndex) {
+          return currentNode;
+        }
+        currentNode = currentNode.next;
       }
-      currentNode = currentNode.next;
+    } else {
+      currentNode = this.tail;
+      for (let currentIndex = this.length - 1; currentIndex >= 0; currentIndex--) {
+        console.log('currentIndex:', currentIndex);
+        if (index === currentIndex) {
+          return currentNode;
+        }
+        currentNode = currentNode.previous;
+      }
     }
-
-    return null;
+    
+    // return null;
   }
 }
 
@@ -203,3 +222,5 @@ console.log('原链表：', list.print());
 
 console.log(list.get(3));
 console.log(list.get(5));
+console.log(list.get(2));
+console.log(list.get(1));
