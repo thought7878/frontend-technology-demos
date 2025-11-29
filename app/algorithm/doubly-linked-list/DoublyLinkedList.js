@@ -199,16 +199,66 @@ class DoublyLinkedList{
     
     // return null;
   }
+
+  /* 
+  在指定index，插入节点。
+  0 <-> 1 <-> 2 <-> 3
+  h   1              t 
+  
+  伪代码/pseudo code：
+  - index的边界情况：
+    - index<0||index>length return null
+  - 如果list为空：
+    - 调用unshift() 或 push()
+  - 在头部插入(index===0)：
+    - 调用unshift()
+  - 在尾部插入：
+    - 调用push()
+  - 在中间插入：
+    - 根据index，找到对应的节点oldNode=get(index)。如果没有oldNode，return null
+    - 根据val，创建新节点newNode
+    - 获取前一个节点prevNode=oldNode.previous
+    - 修改prevNode.next=newNode; newNode.previous=prevNode; newNode.next=oldNode; oldNode.previous=newNode; length++;
+    - return newNode
+    
+
+  */
+  insert(index, val) {
+    // index的边界情况
+    if (index < 0 || index > this.length) return null;
+    
+    // 如果list为空
+    if (this.length === 0) return this.unshift(val);
+
+    // 在头部插入
+    if (index === 0) return this.unshift(val);
+
+    // 在尾部插入
+    if (index === this.length) return this.push(val);
+
+    // 在中间插入
+    let oldNode = this.get(index);
+    if (!oldNode) return null;
+    let newNode = new Node(val);
+    let prevNode = oldNode.previous;
+    prevNode.next = newNode;
+    newNode.previous = prevNode;
+    newNode.next = oldNode;
+    oldNode.previous = newNode;
+    this.length++;
+    
+    return newNode;
+  }
 }
 
 
 let list = new DoublyLinkedList();
-list.push(0);
-list.push(1);
-list.push(2);
-list.push(3);
-list.push(4);
-list.push(5);
+// list.push(0);
+// list.push(1);
+// list.push(2);
+// list.push(3);
+// list.push(4);
+// list.push(5);
 
 console.log('原链表：', list.print());
 
@@ -220,7 +270,11 @@ console.log('原链表：', list.print());
 
 // console.log(list.print());
 
-console.log(list.get(3));
-console.log(list.get(5));
-console.log(list.get(2));
-console.log(list.get(1));
+// console.log(list.get(3));
+// console.log(list.get(5));
+// console.log(list.get(2));
+// console.log(list.get(1));
+
+list.insert(0,0);
+console.log(list.print());
+console.log(list);
