@@ -249,16 +249,58 @@ class DoublyLinkedList{
     
     return newNode;
   }
+
+  /* 
+  根据index，删除节点。
+    0 <-> 1 <-> 2 <-> 3
+    h           d      t 
+  
+  伪代码/pseudo code：
+  - 边界情况：如果index<0||index>=length，return null
+
+  - 删除头部：
+    - 如果index===0，调用shift()
+  - 删除尾部：
+    - 如果index===length-1，调用pop()
+  - 删除中间：
+    - 根据index找到要删除的节点deletingNode；获取前一个节点prevNode；获取后一个节点nextNode；
+    - 改变prevNode的关系：prevNode.next=nextNode
+    - 改变deletingNode的关系：deletingNode.previous=null;deletingNode.next=null;
+    - 改变nextNode的关系：nextNode.previous=prevNode;
+    - length--;
+    - return deletingNode
+  */
+  remove(index) {
+    if (index < 0 || index >= this.length) return null;
+
+    // 删除头部
+    if (index === 0) return this.shift();
+
+    // 删除尾部
+    if (index === this.length - 1) return this.pop();
+    
+    // 删除中间
+    let deletingNode = this.get(index);
+    let prevNode = deletingNode.previous;
+    let nextNode = deletingNode.next;
+    prevNode.next = nextNode;
+    deletingNode.previous = null;
+    deletingNode.next = null;
+    nextNode.previous = prevNode;
+    this.length--;
+
+    return deletingNode;
+  }
 }
 
 
 let list = new DoublyLinkedList();
-// list.push(0);
-// list.push(1);
-// list.push(2);
-// list.push(3);
-// list.push(4);
-// list.push(5);
+list.push(0);
+list.push(1);
+list.push(2);
+list.push(3);
+list.push(4);
+list.push(5);
 
 console.log('原链表：', list.print());
 
@@ -275,6 +317,10 @@ console.log('原链表：', list.print());
 // console.log(list.get(2));
 // console.log(list.get(1));
 
-list.insert(0,0);
+// list.insert(0,0);
+// console.log(list.print());
+// console.log(list);
+
+list.remove(0)
 console.log(list.print());
 console.log(list);
