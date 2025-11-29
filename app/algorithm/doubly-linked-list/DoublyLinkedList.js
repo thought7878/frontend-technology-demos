@@ -201,6 +201,27 @@ class DoublyLinkedList{
   }
 
   /* 
+  根据index，更新节点的值
+  0 <-> 1 <-> 2 <-> 3
+
+  伪代码/pseudo code：
+  - index边界情况：index<0||index>=length return null
+  - 获取index节点node：get(index)
+  - 修改node.value=val
+  - return node
+  */
+  set(index, val) {
+    if (index < 0 || index >= this.length) return null;
+
+    let node = this.get(index);
+    if (node) {
+      node.value = val;
+      return node;
+    }
+    return null;
+  }
+
+  /* 
   在指定index，插入节点。
   0 <-> 1 <-> 2 <-> 3
   h   1              t 
