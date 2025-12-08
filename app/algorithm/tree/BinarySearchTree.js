@@ -60,6 +60,7 @@ class BinarySearchTree{
         // 检查当前节点右侧是否有节点
         if (currentNode.right) { // 有，则currentNode移动到该节点，重复比较步骤
           currentNode = currentNode.right;
+          // continue;
         } else { // 无，则将新节点插入到当前节点右侧（循环终点）
           currentNode.right = newNode;
           return this;
@@ -68,13 +69,63 @@ class BinarySearchTree{
         // 检查当前节点的左侧是否有节点
         if (currentNode.left) { // 有，则currentNode移动到该节点，重复比较步骤
           currentNode = currentNode.left;
-          continue;
+          // continue;
         } else { // 无，则将新节点插入到当前节点左侧（循环终点）
           currentNode.left = newNode;
           return this;
         }
       } else {// 若新节点值等于当前节点
         return this;
+      }
+    }
+  }
+
+  /* 
+  
+  **伪代码/pseudo code：**
+
+  - 边界情况：如果没有root，return null
+  - 循环开始，终止条件是currentNode有值
+    - 比较currentNode.value与val的大小
+      - 如果currentNode.value等于val
+        - 找到了，return currentNode，终止循环
+      - 如果currentNode.value小于val
+        - currentNode.right是否存在
+          - 是，currentNode移动到right，继续循环
+          - 否，没找到，return null，终止循环
+      - 如果currentNode.value大于val
+        - currentNode.left是否存在
+          - 是，currentNode移动到left，继续循环
+          - 否，没找到，return null，终止循环
+  */
+  find(val) {
+    // 边界情况：如果没有root，return null
+    if (!this.root) return null;
+
+    // 循环开始，终止条件是currentNode有值
+    let currentNode = this.root;
+    while (currentNode) {
+      // 比较currentNode.value与val的大小
+      // 如果currentNode.value等于val
+      if (currentNode.value === val) {
+        // 找到了，return currentNode，终止循环
+        return currentNode;
+      } else if (val>currentNode.value) {// 如果currentNode.value小于val
+        // currentNode.right是否存在
+        if (currentNode.right) {// 是，currentNode移动到right，继续循环
+          currentNode = currentNode.right;
+          continue;
+        } else {// 否，没找到，return null，终止循环
+          return null;
+        }
+      } else {// 如果currentNode.value大于val
+        // currentNode.left是否存在
+        if (currentNode.left) {// 是，currentNode移动到left，继续循环
+          currentNode = currentNode.left;
+          continue;
+        } else {// 否，没找到，return null，终止循环
+          return null;
+        }
       }
     }
   }
@@ -92,3 +143,8 @@ const bst = new BinarySearchTree();
 bst.printTree(bst.root);
 bst.insert(18).insert(10).insert(5).insert(12).insert(28).insert(22).insert(38);
 bst.printTree(bst.root);
+
+// find()
+console.log(bst.find(38));
+console.log(bst.find(23));
+console.log(bst.find(1));
