@@ -129,6 +129,137 @@ class BinarySearchTree{
       }
     }
   }
+
+
+
+  /* 
+
+  **我的伪代码/Pseudo Code：**
+  - 创建函数 traversal：
+    - 输入是tree
+    - 输出是包含树节点的数组
+  - 创建变量queue（保存即将遍历的tree节点），初始值是tree.root；变量visited（保存已经遍历的tree节点）
+  - while循环，终结条件是queue不为空
+    - 取出queue的头节点（这里使用数组，链表还需修改头节点），放入visited
+    - 判断刚操作的节点是否有左右子节点
+      - 有，依次放入queue中
+      - 没有，什么也不做
+
+  */
+  traversal() {
+    let queue = [this.root];
+    let visited=[]
+    let currentNode = null;
+
+    while (queue.length !== 0) {
+      currentNode = queue.shift();
+      visited.push(currentNode);
+      if (currentNode.left) {
+        queue.push(currentNode.left);
+      }
+      if (currentNode.right) {
+        queue.push(currentNode.right);
+      }
+    }
+
+    return visited;
+  }
+
+
+  /* 
+
+  **我的伪代码/pseudo code：**
+  - 创建函数preOrder，输入是node，输出是visited（遍历node的数组）
+  - 创建变量visited（保存遍历过的node）
+  - 如果node有值，将node放入visited；没值，返回
+  - 判断node是否有左右子节点
+    - 有左子节点，递归调用自己recurseNode(左子节点)；没有左子节点，什么也不做或return。
+    - 有右子节点，递归调用自己recurseNode(右子节点)；没有右子节点，什么也不做或return。
+
+  */
+  preOrder(root) {
+    
+    let visited = [];
+    function recurseNode(node) {
+      if (!node) return;
+
+      visited.push(node);
+
+      if (node.left) {
+        recurseNode(node.left);
+      } else {
+        return;
+      }
+      if (node.right) {
+        recurseNode(node.right);
+      } else {
+        return;
+      }
+    }
+
+    recurseNode(root);
+
+    return visited;
+  }
+
+
+  /* 
+
+  **我的伪代码/pseudo code：**
+  - 创建函数postOrder，输入是node，输出是visited（遍历node的数组）
+  - 创建变量visited（保存遍历过的node）
+  - 边界条件：如果node没值，返回
+  - 判断node是否有左右子节点
+    - 有左子节点，递归调用自己recurseNode(左子节点)；没有左子节点，什么也不做或return。
+    - 有右子节点，递归调用自己recurseNode(右子节点)；没有右子节点，什么也不做或return。
+  - 将node放入visited
+  */
+  postOrder(root) {
+    
+    let visited = [];
+
+    function recurseNode(node) {
+      if (!node) return;
+      if (node.left) recurseNode(node.left);
+      if (node.right) recurseNode(node.right);
+      // 后序遍历，放在最后处理
+      visited.push(node);
+    }
+
+    recurseNode(root);
+    return visited;
+  }
+
+
+  /* 
+
+  **我的伪代码/pseudo code：**
+  - 创建函数inOrder，输入是node，输出是visited（遍历node的数组）
+  - 创建变量visited（保存遍历过的node）
+  - 边界条件：如果node没值，返回
+  - 有左子节点，递归调用自己recurseNode(左子节点)；没有左子节点，什么也不做或return。
+  - 将node放入visited
+  - 有右子节点，递归调用自己recurseNode(右子节点)；没有右子节点，什么也不做或return。
+  */
+  inOrder(root) {
+    
+    let visited = [];
+    function recurseNode(node) {
+      if (!node) return;
+
+      if (node.left) recurseNode(node.left);
+      visited.push(node);
+      if (node.right) recurseNode(node.right);
+
+    }
+
+    recurseNode(root);
+
+    return visited;
+  }
+
+
+
   
 }
 
@@ -140,11 +271,21 @@ const bst = new BinarySearchTree();
 // bst.root.left.right = new Node(12);
 
 // insert
-bst.printTree(bst.root);
+// bst.printTree(bst.root);
 bst.insert(18).insert(10).insert(5).insert(12).insert(28).insert(22).insert(38);
 bst.printTree(bst.root);
 
 // find()
-console.log(bst.find(38));
-console.log(bst.find(23));
-console.log(bst.find(1));
+// console.log(bst.find(38));
+// console.log(bst.find(23));
+// console.log(bst.find(1));
+
+// traversal()
+// console.log(bst.traversal());
+
+// preOrder()
+// console.log(bst.preOrder(bst.root));
+// postOrder()
+// console.log(bst.postOrder(bst.root));
+// inOrder()
+console.log(bst.inOrder(bst.root));
